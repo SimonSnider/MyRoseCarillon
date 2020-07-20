@@ -25,4 +25,6 @@
     <string name="upload">Upload</string>
     <string name="notes_title">Notes</string>
     <string name="rests_title">Rests</string>
+    <string name="bpm_title">BPM</string>
+    <string name="temp_score">999</string>
 </resources>

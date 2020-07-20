@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         tools:src="@tools:sample/backgrounds/scenic"
+        android:scaleType="centerCrop"
         android:layout_below="@id/song_title_view"
         tools:ignore="ContentDescription" />
 
@@ -106,6 +107,23 @@
             android:layout_weight="1"
             android:background="@color/colorDetail" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/bpm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rest_buttons"
+        android:padding="10dp"
+        android:text="@string/bpm_title"
+        android:textStyle="bold"
+        android:textAlignment="center" />
+
+    <SeekBar
+        android:id="@+id/bpm_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDetail"
+        android:layout_below="@id/bpm"/>
 
     <Button
         android:id="@+id/compose_button"
