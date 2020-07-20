@@ -1,4 +1,4 @@
-package com.example.myrosecarillon.Constants
+package com.example.myrosecarillon.constants
 
 object Constants {
     const val TAG = "MRC"
