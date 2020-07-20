@@ -1,13 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     tools:context=".FileUploaderFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/welcome_to_file_uploader" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/song_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:fontFeatureSettings="smcp"
+        android:textSize="24sp"
+        android:background="@color/colorAccent"
+        android:padding="10dp"
+        android:text="@string/song_title" />
+
+    <ImageView
+        android:layout_marginVertical="10dp"
+        android:id="@+id/composer_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        tools:src="@tools:sample/backgrounds/scenic"
+        android:layout_below="@id/song_title_view"
+        tools:ignore="ContentDescription" />
+
+    <RelativeLayout
+        android:id="@+id/description_pane"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorDetail"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/composer_view">
+
+        <TextView
+            android:id="@+id/upload_song_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/file_name"
+            android:paddingBottom="5dp"/>
+        <TextView
+            android:id="@+id/upload_song_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/length"
+            android:layout_below="@id/upload_song_name"
+            android:paddingBottom="5dp"/>
+        <TextView
+            android:id="@+id/upload_song_note_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/notes"
+            android:layout_below="@id/upload_song_time"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_margin="10dp"
+        android:id="@+id/upload_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/upload"
+        android:background="@color/colorDetail"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/description_pane"/>
+
+    <Button
+        android:id="@+id/compose_button"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/compose"
+        android:textSize="12sp"
+        android:textColor="@color/colorBackground"/>
+
+</RelativeLayout>

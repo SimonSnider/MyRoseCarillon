@@ -17,4 +17,12 @@
     <string name="welcome_to_song_board">Welcome to Song Board</string>
     <string name="welcome_to_song_composer">Welcome to Song Composer</string>
     <string name="welcome_to_log_in">Welcome to Log In</string>
+    <string name="song_title">Song Title</string>
+    <string name="file_name">File Name:</string>
+    <string name="length">Length:</string>
+    <string name="notes">Notes:</string>
+    <string name="compose">Compose</string>
+    <string name="upload">Upload</string>
+    <string name="notes_title">Notes</string>
+    <string name="rests_title">Rests</string>
 </resources>
