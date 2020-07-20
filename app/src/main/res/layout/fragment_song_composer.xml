@@ -4,7 +4,7 @@
     android:layout_margin="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SongComposerFragment">
+    tools:context=".fragments.SongComposerFragment">
 
     <TextView
         android:id="@+id/song_title_view"

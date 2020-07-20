@@ -1,4 +1,4 @@
-package com.example.myrosecarillon
+package com.example.myrosecarillon.objects
 
 import android.graphics.Bitmap
 import com.google.firebase.firestore.DocumentSnapshot
