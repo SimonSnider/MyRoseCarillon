@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_LogInFragment"
+            app:destination="@id/LogInFragment"/>
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
@@ -24,5 +27,11 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/LogInFragment"
+        android:name="com.example.myrosecarillon.LogInFragment"
+        android:label="Log In Fragment"
+        tools:layout="@layout/fragment_log_in">
     </fragment>
 </navigation>
