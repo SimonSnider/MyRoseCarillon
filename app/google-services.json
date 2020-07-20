@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "299549896350",
+    "firebase_url": "https://myrosecarillon.firebaseio.com",
+    "project_id": "myrosecarillon",
+    "storage_bucket": "myrosecarillon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299549896350:android:1b92662f12a2703016d58f",
+        "android_client_info": {
+          "package_name": "com.example.myrosecarillon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299549896350-ttsno6l5ipnagpnvrik75uiv2igfcig9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myrosecarillon",
+            "certificate_hash": "8ff40ddeaa06e23dcace2ba645836ed8eb0a0def"
+          }
+        },
+        {
+          "client_id": "299549896350-qf5q627clbalsvt26rjmtm2v7bglftkr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_osSVZ9_MC9fExZOkB5CsZmve6MSbZwg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299549896350-qf5q627clbalsvt26rjmtm2v7bglftkr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
