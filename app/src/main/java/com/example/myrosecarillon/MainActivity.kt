@@ -6,9 +6,12 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.example.myrosecarillon.Constants.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
+
+    private var ref = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH).document("pAO7xNyb3QtrbxNWMXEM")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +23,6 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
 
-        
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

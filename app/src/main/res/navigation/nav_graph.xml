@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.myrosecarillon.FirstFragment"
+        android:name="com.example.myrosecarillon.fragments.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.myrosecarillon.SecondFragment"
+        android:name="com.example.myrosecarillon.fragments.SecondFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
 
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/LogInFragment"
-        android:name="com.example.myrosecarillon.LogInFragment"
+        android:name="com.example.myrosecarillon.fragments.LogInFragment"
         android:label="Log In Fragment"
         tools:layout="@layout/fragment_log_in">
     </fragment>
