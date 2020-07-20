@@ -9,6 +9,12 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_to_file_uploader">Welcome to File Uploader</string>
+    <string name="welcome_to_main_menu">Welcome to Main Menu</string>
+    <string name="welcome_to_my_songs">Welcome to My Songs</string>
+    <string name="welcome_to_profile_page">Welcome to Profile Page</string>
+    <string name="welcome_to_song_board">Welcome to Song Board</string>
+    <string name="welcome_to_song_composer">Welcome to Song Composer</string>
+    <string name="welcome_to_log_in">Welcome to Log In</string>
 </resources>
