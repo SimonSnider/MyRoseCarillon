@@ -1,13 +1,273 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     tools:context=".fragments.MainMenuFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/welcome_to_main_menu" />
+    <RelativeLayout
+        android:id="@+id/now_playing_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDetail">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/now_playing_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorBackground"
+            android:background="@color/colorPrimary"
+            android:text="@string/now_playing_title"
+            android:textSize="24dp"/>
+
+        <RelativeLayout
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/now_playing_title">
+
+            <RelativeLayout
+                android:id="@+id/color_bar"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/card_title"
+                    android:paddingLeft="55dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="gravity"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:text="@string/song_title"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/color_bar">
+                <LinearLayout
+                    android:background="@color/colorDetail"
+                    android:layout_width="50dp"
+                    android:layout_height="65dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="gravity"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/temp_score" />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/up_next_region"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDetail"
+        android:layout_below="@id/now_playing_region">
+
+        <TextView
+            android:id="@+id/up_next_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorBackground"
+            android:background="@color/colorPrimary"
+            android:text="@string/up_next"
+            android:textSize="24sp"/>
+
+        <RelativeLayout
+            android:id="@+id/queue_first"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/up_next_title">
+
+            <RelativeLayout
+                android:id="@+id/color_bar_1"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/up_next_song_name"
+                    android:paddingLeft="55dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="gravity"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:text="@string/song_title"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/color_bar_1">
+                <LinearLayout
+                    android:background="@color/colorDetail"
+                    android:layout_width="50dp"
+                    android:layout_height="65dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/rating_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="gravity"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/temp_score" />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/queue_second"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/queue_first">
+
+            <RelativeLayout
+                android:id="@+id/color_bar_2"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/colorAccent">
+
+                <TextView
+                    android:id="@+id/future_song_name"
+                    android:paddingLeft="55dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textAlignment="gravity"
+                    android:gravity="center_vertical"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:text="@string/song_title"/>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/color_bar_2">
+                <LinearLayout
+                    android:background="@color/colorDetail"
+                    android:layout_width="50dp"
+                    android:layout_height="65dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/rating_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="gravity"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/temp_score" />
+
+                </LinearLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    tools:src="@tools:sample/backgrounds/scenic"/>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/view_all"
+            android:layout_below="@id/queue_second"
+            android:background="@color/colorDetailDark"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/create_region"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorDetail"
+        android:layout_below="@id/up_next_region">
+
+        <TextView
+            android:id="@+id/create_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/colorBackground"
+            android:background="@color/colorPrimary"
+            android:text="@string/create_title"
+            android:textSize="24dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create_title">
+
+            <Button
+                android:id="@+id/upload_button"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/compose_button"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:text="Button" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

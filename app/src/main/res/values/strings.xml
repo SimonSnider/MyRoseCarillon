@@ -27,4 +27,8 @@
     <string name="rests_title">Rests</string>
     <string name="bpm_title">BPM</string>
     <string name="temp_score">999</string>
+    <string name="now_playing_title">NOW PLAYING</string>
+    <string name="up_next">UP NEXT</string>
+    <string name="view_all">View All</string>
+    <string name="create_title">CREATE</string>
 </resources>
