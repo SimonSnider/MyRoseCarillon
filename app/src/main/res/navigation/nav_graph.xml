@@ -3,35 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/mainMenuFragment">
 
-    <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.myrosecarillon.fragments.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-        <action
-            android:id="@+id/action_FirstFragment_to_LogInFragment"
-            app:destination="@id/LogInFragment"/>
-    </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.myrosecarillon.fragments.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
     <fragment
         android:id="@+id/LogInFragment"
         android:name="com.example.myrosecarillon.fragments.LogInFragment"
         android:label="Log In Fragment"
         tools:layout="@layout/fragment_log_in">
     </fragment>
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.example.myrosecarillon.fragments.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_fileUploaderFragment"
+            app:destination="@id/fileUploaderFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_songComposerFragment"
+            app:destination="@id/songComposerFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_songBoardFragment"
+            app:destination="@id/songBoardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fileUploaderFragment"
+        android:name="com.example.myrosecarillon.fragments.FileUploaderFragment"
+        android:label="fragment_file_uploader"
+        tools:layout="@layout/fragment_file_uploader" >
+        <action
+            android:id="@+id/action_fileUploaderFragment_to_mySongsFragment"
+            app:destination="@id/mySongsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mySongsFragment"
+        android:name="com.example.myrosecarillon.fragments.MySongsFragment"
+        android:label="fragment_my_songs"
+        tools:layout="@layout/fragment_my_songs" >
+        <action
+            android:id="@+id/action_mySongsFragment_to_songBoardFragment"
+            app:destination="@id/songBoardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/songComposerFragment"
+        android:name="com.example.myrosecarillon.fragments.SongComposerFragment"
+        android:label="fragment_song_composer"
+        tools:layout="@layout/fragment_song_composer" >
+        <action
+            android:id="@+id/action_songComposerFragment_to_mySongsFragment"
+            app:destination="@id/mySongsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/songBoardFragment"
+        android:name="com.example.myrosecarillon.fragments.SongBoardFragment"
+        android:label="fragment_song_board"
+        tools:layout="@layout/fragment_song_board" />
 </navigation>

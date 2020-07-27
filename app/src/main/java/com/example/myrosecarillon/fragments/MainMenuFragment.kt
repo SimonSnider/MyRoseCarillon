@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
+import kotlinx.android.synthetic.main.fragment_main_menu.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +38,14 @@ class MainMenuFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.compose_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songComposerFragment) }
+        view.upload_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_fileUploaderFragment) }
+        view.view_all_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songBoardFragment) }
     }
 
     companion object {

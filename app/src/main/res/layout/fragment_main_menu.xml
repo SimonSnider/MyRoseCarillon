@@ -214,6 +214,7 @@
         </RelativeLayout>
 
         <Button
+            android:id="@+id/view_all_button"
             android:layout_margin="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -255,7 +256,7 @@
                 android:layout_height="75dp"
                 android:background="@color/colorAccent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/upload" />
 
             <Button
                 android:id="@+id/compose_button"
@@ -264,7 +265,7 @@
                 android:layout_height="75dp"
                 android:background="@color/colorAccent"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/compose" />
 
         </LinearLayout>
 
