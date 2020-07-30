@@ -13,10 +13,10 @@ class Song (var userRef: DocumentReference? = null, var midi: String = "", var t
             val song: Song = snapshot.toObject(
                 Song::class.java)!!
             song.id = snapshot.id
-            if (song.userRef != null) {
-                song.user =
-                    User.fromSnapshot(song.userRef!!.get().result!!)
-            }
+//            if (song.userRef != null) {
+//                song.user =
+//                    User.fromSnapshot(song.userRef!!.get().result!!)
+//            }
             return song
         }
     }

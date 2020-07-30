@@ -1,5 +1,7 @@
 package com.example.myrosecarillon.objects
 
+import android.util.Log
+import com.example.myrosecarillon.constants.Constants
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
@@ -17,14 +19,14 @@ class Post(var date: Date? = null, var likes: Int = 0, var dislikes: Int = 0, va
         fun fromSnapshot(snapshot: DocumentSnapshot): Post {
             val post = snapshot.toObject(Post::class.java)!!
             post.id = snapshot.id
-            if (post.userRef != null){
-                post.user =
-                    User.fromSnapshot(post.userRef!!.get().result!!)
-            }
-            if (post.songRef != null){
-                post.song =
-                    Song.fromSnapshot(post.songRef!!.get().result!!)
-            }
+//            if (post.userRef != null){
+//                post.user =
+//                    User.fromSnapshot(post.userRef!!.get().result!!)
+//            }
+//            if (post.songRef != null){
+//                post.song =
+//                    Song.fromSnapshot(post.songRef!!.get().result!!)
+//            }
             return post
         }
     }

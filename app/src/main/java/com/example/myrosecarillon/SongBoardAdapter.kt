@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.objects.Post
+import com.example.myrosecarillon.objects.Song
 import com.google.firebase.firestore.*
 
 class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHolder>(){
 
     private val posts = ArrayList<Post>()
     private val postsRef = FirebaseFirestore.getInstance().collection(Constants.POSTS_PATH)
+    private val songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
     private lateinit var listenerRegistration: ListenerRegistration
 
     fun addSnapshotListener() {
@@ -37,7 +39,7 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
                     notifyItemInserted(0)
                 }
                 DocumentChange.Type.REMOVED -> {
-                    Log.d(Constants.TAG, "Removice $post")
+                    Log.d(Constants.TAG, "Removing $post")
                     val index = posts.indexOfFirst{it.id == post.id}
                     posts.removeAt(index)
                     notifyItemRemoved(index)
