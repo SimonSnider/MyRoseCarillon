@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.MySongsFragment">
+    tools:context=".fragments.MySongsFragment"
+    android:id="@+id/my_songs_recycler_view">
 
 </androidx.recyclerview.widget.RecyclerView>
