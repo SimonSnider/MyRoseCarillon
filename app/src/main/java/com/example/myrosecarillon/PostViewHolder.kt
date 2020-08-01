@@ -16,7 +16,8 @@ class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), GetSon
     private val songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
 
     fun bind(post: Post){
-        GetSongTask(this).execute(post.songRef)
+//        GetSongTask(this).execute(post.songRef)
+        cardView.card_title.text = post.song?.title
         val rating = post.likes - post.dislikes
         cardView.rating.text = rating.toString()
     }

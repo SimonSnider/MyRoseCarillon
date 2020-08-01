@@ -32,6 +32,16 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         for (documentChange in querySnapshot.documentChanges) {
             val post = Post.fromSnapshot(documentChange.document)
+//            songsRef.document("pAO7xNyb3QtrbxNWMXEM").get().addOnCompleteListener() { task ->
+//                post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
+//                val index = posts.indexOfFirst { it.id == post.id }
+//                notifyItemChanged(index)
+//            }
+            post.songRef?.get()?.addOnCompleteListener() {task ->
+                post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
+                val index = posts.indexOfFirst { it.id == post.id }
+                if (index > -1 ) notifyItemChanged(index)
+            }
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
                     Log.d(Constants.TAG, "Adding $post")
