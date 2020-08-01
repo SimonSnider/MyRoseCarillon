@@ -31,4 +31,7 @@
     <string name="up_next">UP NEXT</string>
     <string name="view_all">View All</string>
     <string name="create_title">CREATE</string>
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+
 </resources>

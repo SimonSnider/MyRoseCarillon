@@ -4,9 +4,10 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
+import java.time.LocalDate
 import java.util.*
 
-class Song (var creatorID: String = "", var midi: String = "", var title: String = "", var creationDate: Timestamp) {
+class Song (var creatorID: String = "", var midi: String = "", var title: String = "", var creationDate: Timestamp = Timestamp(Date(2020, 8, 1))) {
     @get:Exclude var id = ""
     @get:Exclude var user: User? = null
 
