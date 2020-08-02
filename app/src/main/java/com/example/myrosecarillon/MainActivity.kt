@@ -68,14 +68,16 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
     }
 
     private fun initializeListeners() {
-        Log.d(Constants.TAG, "Initializing authStateListener")
+        //initialize authStateListener to handle user login
         authStateListener = FirebaseAuth.AuthStateListener {auth: FirebaseAuth ->
             val user = auth.currentUser
             Log.d(Constants.TAG, "Auth Listener: user = $user")
             if (user != null){
                 Log.d(Constants.TAG, "UID = ${user.uid}")
+                //switch to the main menu
 //                switchToMainMenuFragment()
             } else {
+                //TODO: go to login screen
 //                launchLoginUI()
             }
         }
@@ -93,15 +95,18 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         ft.commit()
     }
 
+    //interface function to handle button click from LoginFragment
     override fun onLoginButtonPressed() {
         launchLoginUI()
     }
 
+    //creates intent to open RoseFire login and launches the intent
     fun launchLoginUI() {
         val signInIntent: Intent = Rosefire.getSignInIntent(this, getString(R.string.rosefire_key))
         startActivityForResult(signInIntent, RC_ROSEFIRE_SIGN_IN)
     }
 
+    //catches the result of the RoseFire sign in
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_ROSEFIRE_SIGN_IN){
             val result: RosefireResult = Rosefire.getSignInResultFromIntent(data)
@@ -109,6 +114,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
                 Log.d(Constants.TAG, "The user cancelled the login")
                 return
             }
+            //if the task is not successful, send a toast, otherwise let the authStateListener do its function
             auth.signInWithCustomToken(result.token).addOnCompleteListener {task ->
                 Log.d(Constants.TAG, "signInWithCustomToken:onComplete:" + task.isSuccessful)
                 if (!task.isSuccessful) {
