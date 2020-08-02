@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.objects.Post
 import com.example.myrosecarillon.objects.Song
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
 class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHolder>(){
@@ -15,6 +16,7 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
     private val posts = ArrayList<Post>()
     private val postsRef = FirebaseFirestore.getInstance().collection(Constants.POSTS_PATH)
     private val songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
+    private val auth = FirebaseAuth.getInstance()
     private lateinit var listenerRegistration: ListenerRegistration
 
     fun addSnapshotListener() {
@@ -32,6 +34,8 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         for (documentChange in querySnapshot.documentChanges) {
             val post = Post.fromSnapshot(documentChange.document)
+            Log.d(Constants.TAG, "votes: ${post.votes}")
+            Log.d(Constants.TAG, "user vote: ${post.votes?.get("MRXkKWXrxMDwkDL77qoi")}")
 //            songsRef.document("pAO7xNyb3QtrbxNWMXEM").get().addOnCompleteListener() { task ->
 //                post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
 //                val index = posts.indexOfFirst { it.id == post.id }
@@ -66,12 +70,19 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.vote_song_card, parent, false)
-        return PostViewHolder(view)
+        return PostViewHolder(view, context, this)
     }
 
     override fun getItemCount() = posts.size
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         holder.bind(posts[position])
+    }
+
+    fun vote(position: Int, num: Int){
+        if(posts[position].votes?.get("MRXkKWXrxMDwkDL77qoi") == num){
+            posts[position].votes?.put("MRXkKWXrxMDwkDL77qoi", 0)
+        } else posts[position].votes?.put("MRXkKWXrxMDwkDL77qoi", num)
+        postsRef.document(posts[position].id).set(posts[position])
     }
 }

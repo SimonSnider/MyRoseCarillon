@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
             Log.d(Constants.TAG, "Auth Listener: user = $user")
             if (user != null){
                 Log.d(Constants.TAG, "UID = ${user.uid}")
-                //switch to the main menu
+                //TODO: switch to the main menu
 //                switchToMainMenuFragment()
             } else {
                 //TODO: go to login screen
