@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myrosecarillon.R
+import com.example.myrosecarillon.objects.MidiStructure
 
 class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -19,6 +20,8 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
     private var showBars: Boolean
     private val linePaint: Paint
     private val barPaint: Paint
+    private val notePaint: Paint
+    private var midiStructure: MidiStructure
 
     init {
         context.theme.obtainStyledAttributes(attributeSet, R.styleable.MidiComposerView, 0, 0).apply {
@@ -42,6 +45,20 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
             style = Paint.Style.STROKE
             strokeWidth = 1F
         }
+        notePaint = Paint(ANTI_ALIAS_FLAG).apply {
+            color = ContextCompat.getColor(context, android.R.color.black)
+            style = Paint.Style.FILL
+        }
+        midiStructure = MidiStructure(lines, bars).apply {
+            addWholeNote(1, 1)
+            addEighthNote(1, 0)
+            addEighthNote(2, 1)
+            addEighthNote(3, 2)
+            addEighthNote(4, 3)
+            addEighthNote(0, 4)
+            addEighthNote(1, 5)
+            addEighthNote(2, 6)
+            addEighthNote(3, 7) }
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -64,19 +81,14 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
 
         canvas.apply {
 
-            //Draw the notes for the view
-            run{
-
-            }
-
             //Draw the lines for the view
             run {
-                if (showBars && bars > 0) {
-                    for (i in 1..bars) {
+                if (showBars && bars > 1) {
+                    for (i in 1 until bars) {
                         drawLine(
-                            0F + (i * width / (bars + 1)),
+                            0F + (i * width / (bars)),
                             0F + paddingTop,
-                            0F + +(i * width / (bars + 1)),
+                            0F + +(i * width / (bars)),
                             0F + height - paddingBottom,
                             barPaint
                         )
@@ -95,11 +107,20 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
                     }
                 }
             }
+
+            //Draw the notes for the view
+            run{
+                midiStructure.getNotes().forEach { note ->
+                    Log.d(DEBUG_TAG, "note found ${(note.column * width / (bars)).toFloat()}, ${(note.row * height / (lines + 1)).toFloat()}")
+                    drawCircle(((note.column + 1) * width / (bars * 8)).toFloat(), ((note.row + 1) * height / (lines + 1)).toFloat(), 50F, notePaint)
+            }
+            }
+
         }
     }
 
     companion object Constants{
-        const val BAR_DEFAULT = 0
+        const val BAR_DEFAULT = 1
         const val LINE_DEFAULT = 5
         const val LINE_COLOR_DEFAULT = android.R.color.darker_gray
         const val SHOW_LINES_DEFAULT = true

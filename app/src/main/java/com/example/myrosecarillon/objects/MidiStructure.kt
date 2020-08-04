@@ -1,15 +1,39 @@
 package com.example.myrosecarillon.objects
 
-class MidiStructure (rows: Int, bars: Int) {
+import android.util.Log
+import com.example.myrosecarillon.midiEditor.MidiComposerView
+
+class MidiStructure (var rows: Int, var bars: Int) {
 
     private var noteGrid = Array(rows) { IntArray(8 * bars)}
 
+    init {
+        for( i in 0 until (bars * 8 - 1)){
+            for(j in 0 until (rows)){
+                Log.d(MidiComposerView.DEBUG_TAG, "${i},${j}")
+                noteGrid[j][i] = EMPTY
+            }
+        }
+    }
+
     fun checkLocation(row: Int, column: Int) : Boolean{
-        //TODO: entire function
+        return true
     }
 
     fun remove(row: Int, column: Int) : Boolean{
-        //TODO: entire function
+        return true
+    }
+
+    fun getNotes() : List<Note>{
+        var notes = ArrayList<Note>()
+        for( i in 0 until (bars * 8 - 1)){
+            for(j in 0 until (rows)){
+                if(noteGrid[j][i] % 2 == 0){
+                    notes.add(Note(noteGrid[j][i], j, i))
+                }
+            }
+        }
+        return notes
     }
 
     fun addWholeNote(row: Int, column: Int) : Boolean{
@@ -105,6 +129,8 @@ class MidiStructure (rows: Int, bars: Int) {
             false
         }
     }
+
+    //fun toMidi()
 
     companion object {
         const val EMPTY = -1
