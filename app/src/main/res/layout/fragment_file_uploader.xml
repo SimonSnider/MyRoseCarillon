@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp"
     tools:context=".fragments.FileUploaderFragment">
 
@@ -19,14 +20,16 @@
         android:padding="10dp"
         android:text="@string/song_title" />
 
-    <ImageView
+    <com.example.myrosecarillon.midiEditor.MidiComposerView
         android:layout_marginVertical="10dp"
         android:id="@+id/composer_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        tools:src="@tools:sample/backgrounds/scenic"
         android:layout_below="@id/song_title_view"
-        tools:ignore="ContentDescription" />
+        android:background="@color/colorDetail"
+        app:lines="5"
+        app:lineColor="@android:color/darker_gray"
+        app:showLines="true"/>
 
     <RelativeLayout
         android:id="@+id/description_pane"

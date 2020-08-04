@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_ROSEFIRE_SIGN_IN){
             val result: RosefireResult = Rosefire.getSignInResultFromIntent(data)
-            if (!result.isSuccessful()){
+            if (!result.isSuccessful){
                 Log.d(Constants.TAG, "The user cancelled the login")
                 return
             }

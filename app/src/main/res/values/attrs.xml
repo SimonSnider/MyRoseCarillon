@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MidiComposerView">
+        <attr name="showLines" format="boolean"/>
+        <attr name="lines" format="integer"/>
+        <attr name="showBars" format="boolean"/>
+        <attr name="bars" format="integer"/>
+        <attr name="lineColor" format="color"/>
+    </declare-styleable>
+</resources>

@@ -18,7 +18,8 @@
         tools:layout="@layout/fragment_main_menu" >
         <action
             android:id="@+id/action_mainMenuFragment_to_fileUploaderFragment"
-            app:destination="@id/fileUploaderFragment" />
+            app:destination="@id/fileUploaderFragment"
+            app:enterAnim="@anim/fragment_open_enter" />
         <action
             android:id="@+id/action_mainMenuFragment_to_songComposerFragment"
             app:destination="@id/songComposerFragment" />
