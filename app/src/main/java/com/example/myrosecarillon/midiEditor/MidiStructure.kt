@@ -1,7 +1,6 @@
-package com.example.myrosecarillon.objects
+package com.example.myrosecarillon.midiEditor
 
 import android.util.Log
-import com.example.myrosecarillon.midiEditor.MidiComposerView
 
 class MidiStructure (var rows: Int, var bars: Int) {
 
@@ -11,7 +10,8 @@ class MidiStructure (var rows: Int, var bars: Int) {
         for( i in 0 until (bars * 8 - 1)){
             for(j in 0 until (rows)){
                 Log.d(MidiComposerView.DEBUG_TAG, "${i},${j}")
-                noteGrid[j][i] = EMPTY
+                noteGrid[j][i] =
+                    EMPTY
             }
         }
     }
@@ -29,7 +29,13 @@ class MidiStructure (var rows: Int, var bars: Int) {
         for( i in 0 until (bars * 8 - 1)){
             for(j in 0 until (rows)){
                 if(noteGrid[j][i] % 2 == 0){
-                    notes.add(Note(noteGrid[j][i], j, i))
+                    notes.add(
+                        Note(
+                            noteGrid[j][i],
+                            j,
+                            i
+                        )
+                    )
                 }
             }
         }
@@ -38,14 +44,22 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addWholeNote(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY && noteGrid[row][column + 2] == EMPTY && noteGrid[row][column + 3] == EMPTY && noteGrid[row][column + 4] == EMPTY && noteGrid[row][column + 5] == EMPTY && noteGrid[row][column + 6] == EMPTY && noteGrid[row][column + 7] == EMPTY){
-            noteGrid[row][column] = WHOLE_NOTE
-            noteGrid[row][column+1] = WHOLE_NOTE_FILLER
-            noteGrid[row][column+2] = WHOLE_NOTE_FILLER
-            noteGrid[row][column+3] = WHOLE_NOTE_FILLER
-            noteGrid[row][column+4] = WHOLE_NOTE_FILLER
-            noteGrid[row][column+5] = WHOLE_NOTE_FILLER
-            noteGrid[row][column+6] = WHOLE_NOTE_FILLER
-            noteGrid[row][column+7] = WHOLE_NOTE_FILLER
+            noteGrid[row][column] =
+                WHOLE_NOTE
+            noteGrid[row][column+1] =
+                WHOLE_NOTE_FILLER
+            noteGrid[row][column+2] =
+                WHOLE_NOTE_FILLER
+            noteGrid[row][column+3] =
+                WHOLE_NOTE_FILLER
+            noteGrid[row][column+4] =
+                WHOLE_NOTE_FILLER
+            noteGrid[row][column+5] =
+                WHOLE_NOTE_FILLER
+            noteGrid[row][column+6] =
+                WHOLE_NOTE_FILLER
+            noteGrid[row][column+7] =
+                WHOLE_NOTE_FILLER
             true
         }else {
             false
@@ -54,10 +68,14 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addHalfNote(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY && noteGrid[row][column + 2] == EMPTY && noteGrid[row][column + 3] == EMPTY){
-            noteGrid[row][column] = HALF_NOTE
-            noteGrid[row][column+1] = HALF_NOTE_FILLER
-            noteGrid[row][column+2] = HALF_NOTE_FILLER
-            noteGrid[row][column+3] = HALF_NOTE_FILLER
+            noteGrid[row][column] =
+                HALF_NOTE
+            noteGrid[row][column+1] =
+                HALF_NOTE_FILLER
+            noteGrid[row][column+2] =
+                HALF_NOTE_FILLER
+            noteGrid[row][column+3] =
+                HALF_NOTE_FILLER
             true
         }else {
             false
@@ -66,8 +84,10 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addQuarterNote(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY){
-            noteGrid[row][column] = QUARTER_NOTE
-            noteGrid[row][column+1] = QUARTER_NOTE_FILLER
+            noteGrid[row][column] =
+                QUARTER_NOTE
+            noteGrid[row][column+1] =
+                QUARTER_NOTE_FILLER
             true
         }else {
             false
@@ -76,7 +96,8 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addEighthNote(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY){
-            noteGrid[row][column] = EIGHTH_NOTE
+            noteGrid[row][column] =
+                EIGHTH_NOTE
             true
         }else {
             false
@@ -85,14 +106,22 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addWholeRest(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY && noteGrid[row][column + 2] == EMPTY && noteGrid[row][column + 3] == EMPTY && noteGrid[row][column + 4] == EMPTY && noteGrid[row][column + 5] == EMPTY && noteGrid[row][column + 6] == EMPTY && noteGrid[row][column + 7] == EMPTY){
-            noteGrid[row][column] = WHOLE_REST
-            noteGrid[row][column+1] = WHOLE_REST_FILLER
-            noteGrid[row][column+2] = WHOLE_REST_FILLER
-            noteGrid[row][column+3] = WHOLE_REST_FILLER
-            noteGrid[row][column+4] = WHOLE_REST_FILLER
-            noteGrid[row][column+5] = WHOLE_REST_FILLER
-            noteGrid[row][column+6] = WHOLE_REST_FILLER
-            noteGrid[row][column+7] = WHOLE_REST_FILLER
+            noteGrid[row][column] =
+                WHOLE_REST
+            noteGrid[row][column+1] =
+                WHOLE_REST_FILLER
+            noteGrid[row][column+2] =
+                WHOLE_REST_FILLER
+            noteGrid[row][column+3] =
+                WHOLE_REST_FILLER
+            noteGrid[row][column+4] =
+                WHOLE_REST_FILLER
+            noteGrid[row][column+5] =
+                WHOLE_REST_FILLER
+            noteGrid[row][column+6] =
+                WHOLE_REST_FILLER
+            noteGrid[row][column+7] =
+                WHOLE_REST_FILLER
             true
         }else {
             false
@@ -101,10 +130,14 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addHalfRest(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY && noteGrid[row][column + 2] == EMPTY && noteGrid[row][column + 3] == EMPTY){
-            noteGrid[row][column] = HALF_REST
-            noteGrid[row][column+1] = HALF_REST_FILLER
-            noteGrid[row][column+2] = HALF_REST_FILLER
-            noteGrid[row][column+3] = HALF_REST_FILLER
+            noteGrid[row][column] =
+                HALF_REST
+            noteGrid[row][column+1] =
+                HALF_REST_FILLER
+            noteGrid[row][column+2] =
+                HALF_REST_FILLER
+            noteGrid[row][column+3] =
+                HALF_REST_FILLER
             true
         }else {
             false
@@ -113,8 +146,10 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addQuarterRest(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY){
-            noteGrid[row][column] = QUARTER_REST
-            noteGrid[row][column+1] = QUARTER_REST_FILLER
+            noteGrid[row][column] =
+                QUARTER_REST
+            noteGrid[row][column+1] =
+                QUARTER_REST_FILLER
             true
         }else {
             false
@@ -123,7 +158,8 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun addEighthRest(row: Int, column: Int) : Boolean{
         return if(noteGrid[row][column] == EMPTY){
-            noteGrid[row][column] = EIGHTH_REST
+            noteGrid[row][column] =
+                EIGHTH_REST
             true
         }else {
             false

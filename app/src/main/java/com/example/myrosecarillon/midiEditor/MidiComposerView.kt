@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myrosecarillon.R
-import com.example.myrosecarillon.objects.MidiStructure
 
 class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -49,7 +48,10 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
             color = ContextCompat.getColor(context, android.R.color.black)
             style = Paint.Style.FILL
         }
-        midiStructure = MidiStructure(lines, bars).apply {
+        midiStructure = MidiStructure(
+            lines,
+            bars
+        ).apply {
             addWholeNote(1, 1)
             addEighthNote(1, 0)
             addEighthNote(2, 1)
