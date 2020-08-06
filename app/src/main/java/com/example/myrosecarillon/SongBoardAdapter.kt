@@ -80,9 +80,15 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
     }
 
     fun vote(position: Int, num: Int){
-        if(posts[position].votes?.get("MRXkKWXrxMDwkDL77qoi") == num){
-            posts[position].votes?.put("MRXkKWXrxMDwkDL77qoi", 0)
-        } else posts[position].votes?.put("MRXkKWXrxMDwkDL77qoi", num)
-        postsRef.document(posts[position].id).set(posts[position])
+        val post = posts[position]
+        if(post.votes?.get("MRXkKWXrxMDwkDL77qoi") == num){
+            post.votes?.put("MRXkKWXrxMDwkDL77qoi", 0)
+        } else post.votes?.put("MRXkKWXrxMDwkDL77qoi", num)
+        val upvotes = post.votes?.count{it.value == 1}
+        val downvotes = post.votes?.count{it.value == -1}
+        post.likes = upvotes!!
+        post.dislikes = downvotes!!
+        post.rating = upvotes - downvotes
+        postsRef.document(post.id).set(post)
     }
 }
