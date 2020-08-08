@@ -6,6 +6,8 @@ import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import android.util.AttributeSet
 import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.myrosecarillon.R
@@ -20,7 +22,35 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
     private val linePaint: Paint
     private val barPaint: Paint
     private val notePaint: Paint
-    private var midiStructure: MidiStructure
+    private var midiStructure: MidiStructure? = null
+    private val myListener =  object : GestureDetector.SimpleOnGestureListener() {
+        override fun onDown(e: MotionEvent): Boolean {
+            return true
+        }
+
+        override fun onLongPress(e: MotionEvent?) {
+            midiStructure?.placeAtPointer()
+            midiStructure?.movePointerRight()
+            postInvalidate()
+            super.onLongPress(e)
+        }
+
+        override fun onFling(
+            e1: MotionEvent?,
+            e2: MotionEvent?,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            if(velocityY > 0){
+                midiStructure?.movePointerUp()
+            }else if(velocityY < 0){
+                midiStructure?.movePointerDown()
+            }
+            postInvalidate()
+            return super.onFling(e1, e2, velocityX, velocityY)
+        }
+    }
+    private val detector: GestureDetector = GestureDetector(context, myListener)
 
     init {
         context.theme.obtainStyledAttributes(attributeSet, R.styleable.MidiComposerView, 0, 0).apply {
@@ -51,16 +81,12 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
         midiStructure = MidiStructure(
             lines,
             bars
-        ).apply {
-            addWholeNote(1, 1)
-            addEighthNote(1, 0)
-            addEighthNote(2, 1)
-            addEighthNote(3, 2)
-            addEighthNote(4, 3)
-            addEighthNote(0, 4)
-            addEighthNote(1, 5)
-            addEighthNote(2, 6)
-            addEighthNote(3, 7) }
+        )
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return detector.onTouchEvent(event)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -75,6 +101,7 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
         linePaint.strokeWidth = ((h - ypad) * .01).toFloat()
         barPaint.strokeWidth = ((w - xpad) * .005).toFloat()
     }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -112,10 +139,15 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
 
             //Draw the notes for the view
             run{
-                midiStructure.getNotes().forEach { note ->
+                midiStructure?.getNotes()?.forEach { note ->
                     Log.d(DEBUG_TAG, "note found ${(note.column * width / (bars)).toFloat()}, ${(note.row * height / (lines + 1)).toFloat()}")
                     drawCircle(((note.column + 1) * width / (bars * 8)).toFloat(), ((note.row + 1) * height / (lines + 1)).toFloat(), 50F, notePaint)
+                }
             }
+
+            run{
+                drawCircle((((midiStructure?.getPointerX() ?: 0) + 1) * width / (bars * 8)).toFloat(), (((midiStructure?.getPointerY()
+                    ?: 0) + 1) * height / (lines + 1)).toFloat(), 100F, notePaint)
             }
 
         }

@@ -1,10 +1,12 @@
 package com.example.myrosecarillon.midiEditor
 
 import android.util.Log
+import kotlin.math.abs
 
 class MidiStructure (var rows: Int, var bars: Int) {
 
     private var noteGrid = Array(rows) { IntArray(8 * bars)}
+    private var pointerNote = Note(EIGHTH_NOTE, 0, 0)
 
     init {
         for( i in 0 until (bars * 8 - 1)){
@@ -165,6 +167,51 @@ class MidiStructure (var rows: Int, var bars: Int) {
             false
         }
     }
+
+    fun placeAtPointer(): Boolean{
+        return when(pointerNote.type){
+            WHOLE_NOTE -> addWholeNote(pointerNote.row, pointerNote.column)
+            HALF_NOTE -> addHalfNote(pointerNote.row, pointerNote.column)
+            QUARTER_NOTE -> addQuarterNote(pointerNote.row, pointerNote.column)
+            EIGHTH_NOTE -> addEighthNote(pointerNote.row, pointerNote.column)
+            WHOLE_REST -> addWholeRest(pointerNote.row, pointerNote.column)
+            HALF_REST -> addHalfRest(pointerNote.row, pointerNote.column)
+            QUARTER_REST -> addQuarterRest(pointerNote.row, pointerNote.column)
+            EIGHTH_REST -> addEighthRest(pointerNote.row, pointerNote.column)
+            else -> false
+        }
+    }
+
+    fun movePointerUp(): Boolean{
+        pointerNote.row = (pointerNote.row - 1)
+        if (pointerNote.row < 0) pointerNote.row = rows - 1
+        return true
+    }
+
+    fun movePointerDown(): Boolean{
+        pointerNote.row = (pointerNote.row + 1) % rows
+        return true
+    }
+
+    fun movePointerRight(): Boolean{
+        if(pointerNote.column < (bars * 8) - 1){
+            pointerNote.column += 1
+            return true
+        }
+        return false
+    }
+
+    fun movePointerLeft(): Boolean{
+        if(pointerNote.column > 0){
+            pointerNote.column -= 1
+            return true
+        }
+        return false
+    }
+
+    fun getPointerX() = pointerNote.column
+
+    fun getPointerY() = pointerNote.row
 
     //fun toMidi()
 
