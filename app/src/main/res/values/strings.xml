@@ -33,5 +33,17 @@
     <string name="create_title">CREATE</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
+    <string name="upvotes_given_var">Upvotes Given: %d</string>
+    <string name="upvotes_given">Upvotes Given: </string>
+    <string name="songs_uploaded_var">Songs Uploaded: %d</string>
+    <string name="songs_uploaded">Songs Uploaded: </string>
+    <string name="songs_played_var">Songs Played: %d</string>
+    <string name="songs_played">Songs Played: </string>
+    <string name="carills_var">Carills: %d</string>
+    <string name="carills">Carills: </string>
+    <string name="user_settings">User Settings</string>
+    <string name="my_songs">My Songs</string>
+    <string name="placeholder_name">Placeholder Name</string>
+    <string name="profile">Profile</string>
 
 </resources>

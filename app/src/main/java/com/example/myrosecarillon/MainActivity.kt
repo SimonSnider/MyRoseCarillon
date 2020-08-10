@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         initializeListeners()
+
     }
 
     override fun onStart() {
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         }
     }
 
+
     private fun initializeListeners() {
         //initialize authStateListener to handle user login
         authStateListener = FirebaseAuth.AuthStateListener {auth: FirebaseAuth ->
@@ -82,6 +84,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
             }
         }
     }
+
 
     private fun switchToMainMenuFragment() {
         val ft = supportFragmentManager.beginTransaction()

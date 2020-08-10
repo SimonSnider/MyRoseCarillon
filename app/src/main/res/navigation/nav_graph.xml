@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_songBoardFragment"
             app:destination="@id/songBoardFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_profileFragment"
+            app:destination="@id/profilePageFragment"/>
     </fragment>
     <fragment
         android:id="@+id/fileUploaderFragment"
@@ -59,4 +62,14 @@
         android:name="com.example.myrosecarillon.fragments.SongBoardFragment"
         android:label="fragment_song_board"
         tools:layout="@layout/fragment_song_board" />
+    <fragment
+        android:id="@+id/profilePageFragment"
+        android:name="com.example.myrosecarillon.fragments.ProfilePageFragment"
+        android:label="fragment_profile_page"
+        tools:layout="@layout/fragment_profile_page">
+        <action
+            android:id="@+id/action_profilePageFragment_to_mySongsFragment"
+            app:destination="@id/mySongsFragment"/>
+
+    </fragment>
 </navigation>

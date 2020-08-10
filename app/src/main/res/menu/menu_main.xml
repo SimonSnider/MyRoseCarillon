@@ -17,4 +17,9 @@
         android:orderInCategory="210"
         android:title="@string/logout"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_profile"
+        android:orderInCategory="90"
+        android:title="@string/profile"
+        app:showAsAction="never"/>
 </menu>

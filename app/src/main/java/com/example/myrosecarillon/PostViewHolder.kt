@@ -46,12 +46,10 @@ class PostViewHolder(itemView: View, val context: Context, val adapter: SongBoar
         cardView.rating.text = rating.toString()
         when (post.votes?.get("MRXkKWXrxMDwkDL77qoi")){
             1 -> {
-                Log.d(Constants.TAG, "UPVOTE BUTTON PRESSED")
                 upvoteButton.setColorFilter(context.resources.getColor(android.R.color.holo_red_dark))
                 downvoteButton.colorFilter = null
             }
             -1 -> {
-                Log.d(Constants.TAG, "DOWNVOTE BUTTON PRESSED")
                 downvoteButton.setColorFilter(context.resources.getColor(android.R.color.holo_red_dark))
                 upvoteButton.colorFilter = null
             }

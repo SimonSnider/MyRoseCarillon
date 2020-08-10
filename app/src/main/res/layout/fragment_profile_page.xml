@@ -1,22 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProfilePageFragment">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/profile_imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="fitCenter"
+        tools:src="@tools:sample/avatars"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:minWidth="200dp"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/colorDetail"
+        android:text="@string/placeholder_name"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@id/profile_imageView"/>
+
+    <LinearLayout
         android:id="@+id/stats_block"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorDetail"
-        android:layout_centerInParent="true">
+        android:orientation="vertical"
+        android:layout_below="@id/name_text_view"
+        android:layout_margin="8dp"
+        android:padding="6dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:id="@+id/upvotes_given_stat_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp"
+            android:text="@string/upvotes_given"
+            android:textSize="24sp"
+            android:background="@color/colorDetailDark"/>
+        <TextView
+            android:id="@+id/songs_uploaded_stat_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/songs_uploaded"
+            android:layout_marginVertical="2dp"
+            android:background="@color/colorDetailDark"/>
+        <TextView
+            android:id="@+id/songs_played_stat_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/songs_played"
+            android:layout_marginVertical="2dp"
+            android:background="@color/colorDetailDark"/>
+        <TextView
+            android:id="@+id/carills_stat_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:text="@string/carills"
+            android:layout_marginVertical="2dp"
+            android:background="@color/colorDetailDark"/>
 
 
-    </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/profile_buttons"
+        android:layout_below="@id/stats_block"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/colorDetail"
+        android:layout_margin="8dp"
+        android:padding="6dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/user_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="@string/user_settings"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:background="@color/colorDetailDark"/>
+
+        <Button
+            android:id="@+id/my_songs_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="8dp"
+            android:text="@string/my_songs"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="22sp"
+            android:background="@color/colorDetailDark"/>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

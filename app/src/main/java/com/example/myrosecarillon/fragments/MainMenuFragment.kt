@@ -1,12 +1,15 @@
 package com.example.myrosecarillon.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
+import com.example.myrosecarillon.constants.Constants
 import kotlinx.android.synthetic.main.fragment_main_menu.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +40,7 @@ class MainMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 
@@ -47,6 +51,19 @@ class MainMenuFragment : Fragment() {
         view.upload_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_fileUploaderFragment) }
         view.view_all_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songBoardFragment) }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_profile -> {
+                Log.d(Constants.TAG, "Navigating to profile page")
+                findNavController().navigate(R.id.action_mainMenuFragment_to_profileFragment)
+                true
+            }
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     companion object {
         /**
