@@ -40,6 +40,7 @@ class MidiUploader{
 
     companion object{
         const val FOLDER = "midis"
+        const val DEBUG_TAG = "MidiUploader"
     }
 
 }

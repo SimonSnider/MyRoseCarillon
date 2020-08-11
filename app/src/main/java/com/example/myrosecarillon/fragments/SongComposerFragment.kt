@@ -6,7 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myrosecarillon.R
+import com.example.myrosecarillon.midiEditor.MidiUploader
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.*
+import kotlinx.android.synthetic.main.fragment_file_uploader.view.compose_button
+import kotlinx.android.synthetic.main.fragment_file_uploader.view.composer_view
+import kotlinx.android.synthetic.main.fragment_song_composer.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,7 +47,10 @@ class SongComposerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.compose_button.setOnClickListener {
-            view.composer_view.play()
+            val uploader = MidiUploader()
+            val midi = view.composer_view.getMidi()
+            if(midi != null)
+            uploader.storageAdd(midi, "name")
         }
     }
 

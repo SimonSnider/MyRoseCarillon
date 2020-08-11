@@ -32,6 +32,11 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
             return true
         }
 
+        override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+            play()
+            return super.onSingleTapConfirmed(e)
+        }
+
         override fun onLongPress(e: MotionEvent?) {
             midiStructure?.placeAtPointer()
             midiStructure?.movePointerRight()

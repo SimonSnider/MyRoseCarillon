@@ -20,7 +20,7 @@ class MidiStructure (var rows: Int, var bars: Int) {
     private var pitches: List<Int>? = null
 
     init {
-        for( i in 0 until (bars * 8) - 1){
+        for( i in 0 until (bars * 8)){
             for(j in 0 until (rows)){
                 Log.d(MidiComposerView.DEBUG_TAG, "${i},${j}")
                 noteGrid[j][i] =
@@ -276,6 +276,10 @@ class MidiStructure (var rows: Int, var bars: Int) {
         Log.d(DEBUG_TAG, "Midi Created")
 
         return output
+
+    }
+
+    fun fromMidi(){
 
     }
 
