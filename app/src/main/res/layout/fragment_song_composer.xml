@@ -26,7 +26,8 @@
         android:layout_height="250dp"
         android:layout_below="@id/song_title_view"
         android:background="@color/colorDetail"
-        app:lines="5"
+        app:lines="6"
+        app:bars="2"
         app:lineColor="@android:color/darker_gray"
         app:showLines="true"/>
 

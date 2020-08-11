@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'edu.rosehulman.csse.rosefire:rosefire-android-client:2.1.0'
+    implementation files('src/main/libs/midi-library.jar')
     implementation 'com.squareup.picasso:picasso:2.71828'
 //    implementation 'com.google.firebase:firebase-admin:6.15.0'
     testImplementation 'junit:junit:4.12'

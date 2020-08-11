@@ -4,13 +4,17 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Paint.ANTI_ALIAS_FLAG
+import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.example.myrosecarillon.R
+import java.io.File
+import kotlin.math.abs
 
 class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
@@ -141,16 +145,26 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
             run{
                 midiStructure?.getNotes()?.forEach { note ->
                     Log.d(DEBUG_TAG, "note found ${(note.column * width / (bars)).toFloat()}, ${(note.row * height / (lines + 1)).toFloat()}")
-                    drawCircle(((note.column + 1) * width / (bars * 8)).toFloat(), ((note.row + 1) * height / (lines + 1)).toFloat(), 50F, notePaint)
+                    drawCircle(((note.column + 1) * width / ((bars * 8) + 1)).toFloat(), ((note.row + 1) * height / (lines + 1)).toFloat(), 50F, notePaint)
                 }
             }
 
+            //Draw the selected Note
             run{
-                drawCircle((((midiStructure?.getPointerX() ?: 0) + 1) * width / (bars * 8)).toFloat(), (((midiStructure?.getPointerY()
+                drawCircle((((midiStructure?.getPointerX() ?: 0) + 1) * width / ((bars * 8) + 1).toFloat()), (((midiStructure?.getPointerY()
                     ?: 0) + 1) * height / (lines + 1)).toFloat(), 100F, notePaint)
             }
 
         }
+    }
+
+    fun getMidi(): File? {
+        return midiStructure?.toMidi(context)
+    }
+
+    fun play() {
+        var mediaPlayer: MediaPlayer? = MediaPlayer.create(context, midiStructure!!.toMidi(context).toUri())
+        mediaPlayer?.start()
     }
 
     companion object Constants{

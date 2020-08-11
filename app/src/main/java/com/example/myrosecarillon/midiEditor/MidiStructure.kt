@@ -1,15 +1,26 @@
 package com.example.myrosecarillon.midiEditor
 
+import android.content.Context
+import android.media.MediaPlayer
+import android.os.Environment
 import android.util.Log
-import kotlin.math.abs
+import com.leff.midi.MidiFile
+import com.leff.midi.MidiTrack
+import com.leff.midi.event.meta.Tempo
+import com.leff.midi.event.meta.TimeSignature
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.IOException
+
 
 class MidiStructure (var rows: Int, var bars: Int) {
 
     private var noteGrid = Array(rows) { IntArray(8 * bars)}
     private var pointerNote = Note(EIGHTH_NOTE, 0, 0)
+    private var pitches: List<Int>? = null
 
     init {
-        for( i in 0 until (bars * 8 - 1)){
+        for( i in 0 until (bars * 8) - 1){
             for(j in 0 until (rows)){
                 Log.d(MidiComposerView.DEBUG_TAG, "${i},${j}")
                 noteGrid[j][i] =
@@ -18,17 +29,19 @@ class MidiStructure (var rows: Int, var bars: Int) {
         }
     }
 
+    //TODO Finish Implementation
     fun checkLocation(row: Int, column: Int) : Boolean{
         return true
     }
 
+    //TODO Finish Implementation
     fun remove(row: Int, column: Int) : Boolean{
         return true
     }
 
     fun getNotes() : List<Note>{
         var notes = ArrayList<Note>()
-        for( i in 0 until (bars * 8 - 1)){
+        for( i in 0 until (bars * 8)){
             for(j in 0 until (rows)){
                 if(noteGrid[j][i] % 2 == 0){
                     notes.add(
@@ -213,7 +226,58 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     fun getPointerY() = pointerNote.row
 
-    //fun toMidi()
+    fun setPitchArgs(args: List<Int>) {
+        pitches = args
+    }
+
+    fun toMidi(context: Context): File{
+
+        Log.d(DEBUG_TAG, "toMidi Called")
+
+        var tempoTrack = MidiTrack()
+        var noteTrack = MidiTrack()
+
+        var ts = TimeSignature()
+        ts.setTimeSignature(4, 4, TimeSignature.DEFAULT_METER, TimeSignature.DEFAULT_DIVISION)
+
+        var tempo = Tempo()
+        tempo.bpm = 228F
+
+        tempoTrack.insertEvent(ts)
+        tempoTrack.insertEvent(tempo)
+
+        for( i in 0 until (bars * 8 - 1)){
+            for(j in 0 until (rows)){
+                if(noteGrid[j][i] % 2 == 0){
+                    val channel = 0
+                    val pitch = DEFAULT_PENTATONIC_PITCHES[j]
+                    val velocity = 100
+                    val tick = i * 480.toLong()
+                    val duration: Long = 120
+                    noteTrack.insertNote(channel, pitch, velocity, tick, duration)
+                }
+            }
+        }
+
+        val tracks: MutableList<MidiTrack> = ArrayList()
+        tracks.add(tempoTrack)
+        tracks.add(noteTrack)
+
+        val midi = MidiFile(MidiFile.DEFAULT_RESOLUTION, tracks)
+
+        val output = File.createTempFile("example", ".mid", context.codeCacheDir)
+        output.deleteOnExit()
+        try {
+            midi.writeToFile(output)
+        } catch (e: IOException) {
+            Log.d(DEBUG_TAG, e.toString())
+        }
+
+        Log.d(DEBUG_TAG, "Midi Created")
+
+        return output
+
+    }
 
     companion object {
         const val EMPTY = -1
@@ -231,6 +295,26 @@ class MidiStructure (var rows: Int, var bars: Int) {
         const val QUARTER_REST = 12
         const val QUARTER_REST_FILLER = 13
         const val EIGHTH_REST = 14
+
+        const val DEBUG_TAG = "MidiStruct"
+
+        val DEFAULT_MAJOR_PITCHES = ArrayList<Int>().apply {
+            add(40)
+            add(42)
+            add(44)
+            add(45)
+            add(47)
+            add(49)
+            add(51)
+            add(52)}
+
+        val DEFAULT_PENTATONIC_PITCHES = ArrayList<Int>().apply {
+            add(40)
+            add(42)
+            add(44)
+            add(47)
+            add(49)
+            add(52)}
     }
 
 }
