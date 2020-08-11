@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SongComposerFragment">
 
-    <TextView
-        android:id="@+id/song_title_view"
+    <EditText
+        android:id="@+id/composer_title_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -24,7 +24,7 @@
         android:id="@+id/composer_view"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_below="@id/song_title_view"
+        android:layout_below="@id/composer_title_view"
         android:background="@color/colorDetail"
         app:lines="6"
         app:bars="2"

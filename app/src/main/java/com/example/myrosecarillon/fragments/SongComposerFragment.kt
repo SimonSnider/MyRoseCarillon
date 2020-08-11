@@ -49,8 +49,9 @@ class SongComposerFragment : Fragment() {
         view.compose_button.setOnClickListener {
             val uploader = MidiUploader()
             val midi = view.composer_view.getMidi()
+            val name = view.composer_title_view.text.toString()
             if(midi != null)
-            uploader.storageAdd(midi, "name")
+            uploader.storageAdd(midi, name)
         }
     }
 
