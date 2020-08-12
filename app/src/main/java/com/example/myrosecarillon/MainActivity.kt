@@ -10,9 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.fragments.LogInFragment
 import com.example.myrosecarillon.fragments.MainMenuFragment
+import com.example.myrosecarillon.objects.User
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.rosefire.Rosefire
 import edu.rosehulman.rosefire.RosefireResult
 import java.io.FileInputStream
@@ -20,6 +22,7 @@ import java.io.FileInputStream
 
 class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonPressedListener {
 
+    private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
     private val auth = FirebaseAuth.getInstance()
     lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
@@ -76,8 +79,13 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
             Log.d(Constants.TAG, "Auth Listener: user = $user")
             if (user != null){
                 Log.d(Constants.TAG, "UID = ${user.uid}")
-                //TODO: switch to the main menu
-//                switchToMainMenuFragment()
+                userRef.document(user.uid).get().addOnSuccessListener {
+                    if(!it.exists()){
+                        //TODO: first time login dialog?
+                        Log.d(Constants.TAG, "Adding new user for first login")
+                        userRef.document(user.uid).set(User(Constants.DEFAULT_PICTURE_PATH, user.uid, 0, false))
+                    }
+                }
             } else {
                 //TODO: go to login screen
 //                launchLoginUI()
@@ -104,7 +112,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
     }
 
     //creates intent to open RoseFire login and launches the intent
-    fun launchLoginUI() {
+    private fun launchLoginUI() {
         val signInIntent: Intent = Rosefire.getSignInIntent(this, getString(R.string.rosefire_key))
         startActivityForResult(signInIntent, RC_ROSEFIRE_SIGN_IN)
     }

@@ -6,6 +6,7 @@ import com.example.myrosecarillon.objects.Song
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -16,6 +17,7 @@ class MidiUploader{
 
     private val storageRef = FirebaseStorage.getInstance().reference.child(FOLDER)
     private val thumbnailRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
+    private val auth = FirebaseAuth.getInstance()
 
     fun storageAdd(file: File, title: String){
         val baos = ByteArrayOutputStream()
@@ -33,7 +35,11 @@ class MidiUploader{
         }).addOnCompleteListener { task ->
             if (task.isSuccessful){
                 val downloadUri = task.result.toString()
-                thumbnailRef.add(Song("MRXkKWXrxMDwkDL77qoi", downloadUri, title, Timestamp.now()))
+                auth.currentUser?.uid?.let { Song(it, downloadUri, title, Timestamp.now()) }?.let {
+                    thumbnailRef.add(
+                        it
+                    )
+                }
             }
         }
     }

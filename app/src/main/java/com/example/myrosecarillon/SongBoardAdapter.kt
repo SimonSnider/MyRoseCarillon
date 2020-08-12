@@ -35,7 +35,7 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
         for (documentChange in querySnapshot.documentChanges) {
             val post = Post.fromSnapshot(documentChange.document)
             Log.d(Constants.TAG, "votes: ${post.votes}")
-            Log.d(Constants.TAG, "user vote: ${post.votes?.get("MRXkKWXrxMDwkDL77qoi")}")
+            Log.d(Constants.TAG, "user vote: ${post.votes?.get(auth.currentUser?.uid)}")
 //            songsRef.document("pAO7xNyb3QtrbxNWMXEM").get().addOnCompleteListener() { task ->
 //                post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
 //                val index = posts.indexOfFirst { it.id == post.id }
@@ -81,13 +81,13 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
 
     fun vote(position: Int, num: Int){
         val post = posts[position]
-        if(post.votes?.get("MRXkKWXrxMDwkDL77qoi") == num){
-            post.votes?.put("MRXkKWXrxMDwkDL77qoi", 0)
-        } else post.votes?.put("MRXkKWXrxMDwkDL77qoi", num)
-        val upvotes = post.votes?.count{it.value == 1}
-        val downvotes = post.votes?.count{it.value == -1}
-        post.likes = upvotes!!
-        post.dislikes = downvotes!!
+        if(post.votes?.get(auth.currentUser?.uid) == num){
+            auth.currentUser?.uid?.let { post.votes?.put(it, 0) }
+        } else auth.currentUser?.uid?.let { post.votes?.put(it, num) }
+        val upvotes = post.votes?.count{it.value == 1} ?: 0
+        val downvotes = post.votes?.count{it.value == -1} ?: 0
+        post.likes = upvotes
+        post.dislikes = downvotes
         post.rating = upvotes - downvotes
         postsRef.document(post.id).set(post)
     }

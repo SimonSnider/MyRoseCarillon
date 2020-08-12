@@ -9,18 +9,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.objects.Post
 import com.example.myrosecarillon.objects.Song
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
+import com.google.firebase.storage.FirebaseStorage
 
 class MySongsAdapter(val context: Context):  RecyclerView.Adapter<SongViewHolder>(){
 
     private val songs = ArrayList<Song>()
     private val songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
+    private val storageRef = FirebaseStorage.getInstance().reference.child("midis")
     private lateinit var listenerRegistration: ListenerRegistration
-    private val currentUserID = "MRXkKWXrxMDwkDL77qoi"
+    private val auth = FirebaseAuth.getInstance()
 
     fun addSnapshotListener() {
         listenerRegistration = songsRef
-            .whereEqualTo(Song.CREATOR_ID_KEY, currentUserID)
+            .whereEqualTo(Song.CREATOR_ID_KEY, auth.currentUser?.uid)
             .orderBy(Song.DATE_KEY, Query.Direction.ASCENDING)
             .addSnapshotListener{querySnapshot, e ->
                 if (e != null) {
@@ -72,6 +75,11 @@ class MySongsAdapter(val context: Context):  RecyclerView.Adapter<SongViewHolder
         builder.setTitle("Are you sure you want to delete the song ${songs[position].title}?")
         builder.setPositiveButton(android.R.string.ok) {_, _ ->
             Log.d(Constants.TAG, "Deleting song ${songs[position].id}")
+            val url = songs[position].midi
+            var name = url.substring(url.indexOf("%2F") + 3, (url.indexOf('?')))
+            name = name.replace("%20"," ");
+            storageRef.child(name).delete()
+            songsRef.document(songs[position].id).delete()
         }
         builder.setNegativeButton(android.R.string.cancel) {_,_ ->
 

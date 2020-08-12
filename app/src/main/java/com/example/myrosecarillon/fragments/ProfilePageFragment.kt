@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.objects.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile_page.view.*
@@ -20,6 +21,7 @@ class ProfilePageFragment : Fragment() {
 //    private var param1: String? = null
 //    private var param2: String? = null
     private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
+    private val auth = FirebaseAuth.getInstance()
     private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +39,16 @@ class ProfilePageFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile_page, container, false)
-        userRef.document("MRXkKWXrxMDwkDL77qoi").get().addOnSuccessListener { snap ->
-            user = User.fromSnapshot(snap)
-            view.name_text_view.text = user.displayName
-            view.carills_stat_text_view.text = String.format(requireContext().resources.getString(R.string.carills_var), user.carills)
-            view.songs_played_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_played_var), user.carills)
-            view.songs_uploaded_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_uploaded_var), user.carills)
-            view.upvotes_given_stat_text_view.text = String.format(requireContext().resources.getString(R.string.upvotes_given_var), user.carills)
-            Picasso.get().load(user.pictureUrl).into(view.findViewById<ImageView>(R.id.profile_imageView))
+        auth.currentUser?.uid?.let {
+            userRef.document(it).get().addOnSuccessListener { snap ->
+                user = User.fromSnapshot(snap)
+                view.name_text_view.text = user.displayName
+                view.carills_stat_text_view.text = String.format(requireContext().resources.getString(R.string.carills_var), user.carills)
+                view.songs_played_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_played_var), user.carills)
+                view.songs_uploaded_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_uploaded_var), user.carills)
+                view.upvotes_given_stat_text_view.text = String.format(requireContext().resources.getString(R.string.upvotes_given_var), user.carills)
+                Picasso.get().load(user.pictureUrl).into(view.findViewById<ImageView>(R.id.profile_imageView))
+            }
         }
         view.my_songs_button.setOnClickListener{
             findNavController().navigate(R.id.action_profilePageFragment_to_mySongsFragment)
