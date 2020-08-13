@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
 
     private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
     private val auth = FirebaseAuth.getInstance()
+    private var authFlag = false
     lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     private val RC_ROSEFIRE_SIGN_IN = 1001
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
                 true
             }
             R.id.action_logout -> {
+                authFlag = false
                 auth.signOut()
                 true
             }
@@ -88,7 +90,8 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
                         userRef.document(user.uid).set(User(Constants.DEFAULT_PICTURE_PATH, user.uid, 0, false))
                     }
                 }
-            } else {
+            } else if (!authFlag) {
+                authFlag = true
                 launchLoginUI()
             }
         }
@@ -124,6 +127,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
             val result: RosefireResult = Rosefire.getSignInResultFromIntent(data)
             if (!result.isSuccessful){
                 Log.d(Constants.TAG, "The user cancelled the login")
+                authFlag = false
                 return
             }
             //if the task is not successful, send a toast, otherwise let the authStateListener do its function
@@ -132,7 +136,8 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
                 if (!task.isSuccessful) {
                     Log.w(Constants.TAG, "signInWithCustomToken", task.exception)
                     Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show()
-                }
+                    authFlag = false
+                } else authFlag = true
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data)
