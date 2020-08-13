@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
 
     override fun onStop() {
         super.onStop()
+        Log.d(Constants.TAG, "onStop called")
         auth.removeAuthStateListener(authStateListener)
     }
 
@@ -82,13 +83,13 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
                 userRef.document(user.uid).get().addOnSuccessListener {
                     if(!it.exists()){
                         //TODO: first time login dialog?
+                        //TODO: light mode/dark mode
                         Log.d(Constants.TAG, "Adding new user for first login")
                         userRef.document(user.uid).set(User(Constants.DEFAULT_PICTURE_PATH, user.uid, 0, false))
                     }
                 }
             } else {
-                //TODO: go to login screen
-//                launchLoginUI()
+                launchLoginUI()
             }
         }
     }

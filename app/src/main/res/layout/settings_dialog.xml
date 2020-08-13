@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/choose_profile_picture_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_profile_picture"/>
+
+    <TextView
+        android:id="@+id/edit_display_name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_display_name"
+        android:textSize="20sp"
+        android:layout_below="@id/choose_profile_picture_button"/>
+
+    <EditText
+        android:id="@+id/display_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/edit_display_name_text_view"
+        android:layout_alignBaseline="@id/edit_display_name_text_view"
+        android:hint="@string/enter_display_name"/>
+
+    <ToggleButton
+        android:id="@+id/light_dark_toggle_button"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_display_name_text_view"
+        android:layout_marginEnd="0dp"
+        android:textOff="@string/light_mode"
+        android:textOn="@string/dark_mode" />
+
+</RelativeLayout>

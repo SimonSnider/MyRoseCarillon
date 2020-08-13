@@ -1,11 +1,13 @@
 package com.example.myrosecarillon.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.constants.Constants
@@ -14,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile_page.view.*
+import kotlinx.android.synthetic.main.settings_dialog.view.*
 
 
 class ProfilePageFragment : Fragment() {
@@ -54,9 +57,38 @@ class ProfilePageFragment : Fragment() {
             findNavController().navigate(R.id.action_profilePageFragment_to_mySongsFragment)
         }
         view.user_settings_button.setOnClickListener{
-            //TODO: launch settings ui
+            launchSettingsDialog()
         }
         return view
+    }
+
+    private fun launchSettingsDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("User Settings")
+
+        val view = layoutInflater.inflate(R.layout.settings_dialog, null, false)
+        builder.setView(view)
+        if (user.darkMode) view.light_dark_toggle_button.toggle()
+        view.display_name_edit_text.setText(user.displayName)
+
+        view.choose_profile_picture_button.setOnClickListener{
+            //TODO: launch picture selector intent
+        }
+
+        builder.setPositiveButton(android.R.string.ok){_,_ ->
+            if (!view.display_name_edit_text.text.isBlank()) {
+                user.displayName = view.display_name_edit_text.text.toString()
+                requireView().name_text_view.text  = user.displayName
+            } else Toast.makeText(context, "Display Name cannot be empty", Toast.LENGTH_SHORT).show()
+
+            user.darkMode = view.light_dark_toggle_button.isChecked
+            //TODO: change color pallete
+
+            userRef.document(user.id).set(user)
+        }
+        builder.setNegativeButton(android.R.string.cancel){_,_ ->}
+
+        builder.create().show()
     }
 
 //    companion object {
