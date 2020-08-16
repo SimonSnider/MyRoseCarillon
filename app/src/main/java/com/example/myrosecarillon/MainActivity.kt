@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         initializeListeners()
-
     }
 
     override fun onStart() {

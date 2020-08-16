@@ -1,16 +1,16 @@
 package com.example.myrosecarillon.objects
 
-import android.util.Log
-import com.example.myrosecarillon.constants.Constants
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import java.util.*
 
-class Post(var date: Date? = null, var likes: Int = 0, var dislikes: Int = 0,
-           var rating: Int = 0, var userRef: DocumentReference? = null,
-           var songRef: DocumentReference? = null,
-           var votes: MutableMap<String, Int>? = null) {
+class Post(
+    var date: Timestamp? = null, var likes: Int = 0, var dislikes: Int = 0,
+    var rating: Int = 0, var userRef: DocumentReference? = null,
+    var songRef: DocumentReference? = null,
+    var votes: MutableMap<String, Int>? = mutableMapOf()) {
     @get:Exclude var id = ""
     @get:Exclude var user: User? = null
     @get:Exclude var song: Song? = null

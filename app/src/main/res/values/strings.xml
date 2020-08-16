@@ -50,5 +50,7 @@
     <string name="enter_display_name">Enter Display Name</string>
     <string name="light_mode">Light Mode</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="add_post">Add Post</string>
+    <string name="choose_song">Choose Song</string>
 
 </resources>

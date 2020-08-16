@@ -1,27 +1,43 @@
 package com.example.myrosecarillon.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.provider.SyncStateContract
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.SongBoardAdapter
 import com.example.myrosecarillon.constants.Constants
+import com.example.myrosecarillon.objects.Post
+import com.example.myrosecarillon.objects.Song
+import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.choose_song_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_song_board.*
+import java.time.LocalDateTime
 
 
 class SongBoardFragment : Fragment() {
 
     lateinit var adapter: SongBoardAdapter
+    private var songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
+    private var postRef = FirebaseFirestore.getInstance().collection(Constants.POSTS_PATH)
+    private var auth = FirebaseAuth.getInstance()
+    private var userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -39,6 +55,62 @@ class SongBoardFragment : Fragment() {
         song_board_recycler_view.adapter = adapter
         song_board_recycler_view.layoutManager = LinearLayoutManager(context)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        return when (item.itemId) {
+            R.id.action_add_post -> {
+                showChooseSongDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showChooseSongDialog(){
+        val builder = AlertDialog.Builder(context, R.style.AlertDialogTheme)
+        var selectedSong: Song? = null
+
+        builder.setTitle(requireContext().resources.getString(R.string.choose_song))
+        val view = LayoutInflater.from(context).inflate(R.layout.choose_song_dialog, null, false)
+        builder.setView(view)
+
+        songsRef.whereEqualTo("creatorID", auth.currentUser?.uid).get().addOnSuccessListener {documents ->
+            val songs = documents.map {Song.fromSnapshot(it)}
+            val songTitles = songs.map {it.title}
+
+            val spinner = view.choose_song_spinner
+            spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, songTitles)
+
+            spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view2: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    selectedSong = songs[position]
+                    view.card_title.text = selectedSong!!.title
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    //do nothing
+                }
+
+            }
+        }
+
+
+        builder.setPositiveButton(android.R.string.ok) {_, _ ->
+            postRef.add(Post(date = Timestamp.now(), userRef = userRef.document(auth.currentUser!!.uid), songRef = songsRef.document(selectedSong!!.id)))
+        }
+        builder.setNegativeButton(android.R.string.cancel) {_, _ ->}
+
+        builder.create().show()
+    }
+
 //    companion object {
 //        /**
 //         * Use this factory method to create a new instance of

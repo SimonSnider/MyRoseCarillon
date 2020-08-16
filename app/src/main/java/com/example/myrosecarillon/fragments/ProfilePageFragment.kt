@@ -1,7 +1,12 @@
 package com.example.myrosecarillon.fragments
 
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,19 +17,29 @@ import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.objects.User
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_profile_page.view.*
 import kotlinx.android.synthetic.main.settings_dialog.view.*
+import java.io.ByteArrayOutputStream
+import java.lang.Math.abs
+import java.net.URI
+import kotlin.random.Random
 
 
+const val GET_IMAGE_REQUEST_CODE = 100
 class ProfilePageFragment : Fragment() {
-//    // TODO: Rename and change types of parameters
+    //    // TODO: Rename and change types of parameters
 //    private var param1: String? = null
 //    private var param2: String? = null
     private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
     private val auth = FirebaseAuth.getInstance()
+    private val storageRef = FirebaseStorage.getInstance().reference.child("Pictures")
     private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +87,9 @@ class ProfilePageFragment : Fragment() {
         view.display_name_edit_text.setText(user.displayName)
 
         view.choose_profile_picture_button.setOnClickListener{
-            //TODO: launch picture selector intent
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, GET_IMAGE_REQUEST_CODE)
         }
 
         builder.setPositiveButton(android.R.string.ok){_,_ ->
@@ -89,6 +106,31 @@ class ProfilePageFragment : Fragment() {
         builder.setNegativeButton(android.R.string.cancel){_,_ ->}
 
         builder.create().show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_REQUEST_CODE) {
+            val image: Uri? = data?.data
+            if (image != null) {
+                val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, image)
+                view?.profile_imageView?.setImageBitmap(bitmap)
+
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val outData = baos.toByteArray()
+                val id = abs(Random.nextLong()).toString()
+                val uploadTask = storageRef.child(id).putBytes(outData)
+                uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> {task ->
+                    task.exception?.let {throw it}
+
+                    return@Continuation storageRef.child(id).downloadUrl
+                }).addOnCompleteListener { task ->
+                    user.pictureUrl = task.result.toString()
+                    userRef.document(user.id).set(user)
+                }
+            }
+        }
     }
 
 //    companion object {
