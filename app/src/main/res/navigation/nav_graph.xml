@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_fileUploaderFragment_to_mySongsFragment"
             app:destination="@id/mySongsFragment" />
+        <action
+            android:id="@+id/action_fileUploaderFragment_to_profilePageFragment"
+            app:destination="@id/profilePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/mySongsFragment"
@@ -47,6 +50,9 @@
         <action
             android:id="@+id/action_mySongsFragment_to_songBoardFragment"
             app:destination="@id/songBoardFragment" />
+        <action
+            android:id="@+id/action_mySongsFragment_to_profilePageFragment"
+            app:destination="@id/profilePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/songComposerFragment"
@@ -56,12 +62,19 @@
         <action
             android:id="@+id/action_songComposerFragment_to_mySongsFragment"
             app:destination="@id/mySongsFragment" />
+        <action
+            android:id="@+id/action_songComposerFragment_to_profilePageFragment2"
+            app:destination="@id/profilePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/songBoardFragment"
         android:name="com.example.myrosecarillon.fragments.SongBoardFragment"
         android:label="fragment_song_board"
-        tools:layout="@layout/fragment_song_board" />
+        tools:layout="@layout/fragment_song_board" >
+        <action
+            android:id="@+id/action_songBoardFragment_to_profilePageFragment"
+            app:destination="@id/profilePageFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profilePageFragment"
         android:name="com.example.myrosecarillon.fragments.ProfilePageFragment"

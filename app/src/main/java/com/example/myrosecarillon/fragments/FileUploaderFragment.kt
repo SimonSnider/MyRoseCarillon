@@ -3,8 +3,10 @@ package com.example.myrosecarillon.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.*
 
@@ -29,6 +31,7 @@ class FileUploaderFragment : Fragment() {
             //param1 = it.getString(ARG_PARAM1)
             //param2 = it.getString(ARG_PARAM2)
         }
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -45,6 +48,16 @@ class FileUploaderFragment : Fragment() {
         view.compose_button.setOnClickListener {
             view.composer_view.play()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_profile -> {
+                findNavController().navigate(R.id.action_fileUploaderFragment_to_profilePageFragment)
+                true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     companion object {

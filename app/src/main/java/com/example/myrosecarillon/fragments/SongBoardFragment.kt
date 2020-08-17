@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.SongBoardAdapter
@@ -64,6 +65,10 @@ class SongBoardFragment : Fragment() {
         return when (item.itemId) {
             R.id.action_add_post -> {
                 showChooseSongDialog()
+                true
+            }
+            R.id.action_profile -> {
+                findNavController().navigate(R.id.action_songBoardFragment_to_profilePageFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)
