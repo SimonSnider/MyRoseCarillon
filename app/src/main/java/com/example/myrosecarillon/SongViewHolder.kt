@@ -21,8 +21,10 @@ class SongViewHolder(itemView: View, val adapter: MySongsAdapter) : RecyclerView
             Log.d(Constants.TAG, "Editing song ${song.id}")
         }
         cardView.play_song.setOnClickListener {
+            cardView.song_card_display.play()
             Log.d(Constants.TAG, "Playing song ${song.id}")
         }
+        cardView.song_card_display.sendMidi(song.midi)
         cardView.delete_song.setOnClickListener{
             adapter.showDeleteDialog(adapterPosition)
         }

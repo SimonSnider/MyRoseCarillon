@@ -4,8 +4,10 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.os.Environment
 import android.util.Log
+import androidx.core.net.toUri
 import com.leff.midi.MidiFile
 import com.leff.midi.MidiTrack
+import com.leff.midi.event.NoteOn
 import com.leff.midi.event.meta.Tempo
 import com.leff.midi.event.meta.TimeSignature
 import kotlinx.coroutines.withContext
@@ -195,6 +197,10 @@ class MidiStructure (var rows: Int, var bars: Int) {
         }
     }
 
+    fun setPointerType(noteType: Int){
+        pointerNote.type = noteType
+    }
+
     fun movePointerUp(): Boolean{
         pointerNote.row = (pointerNote.row - 1)
         if (pointerNote.row < 0) pointerNote.row = rows - 1
@@ -207,8 +213,8 @@ class MidiStructure (var rows: Int, var bars: Int) {
     }
 
     fun movePointerRight(): Boolean{
-        if(pointerNote.column < (bars * 8) - 1){
-            pointerNote.column += 1
+        if(pointerNote.column < (bars * 8) - getNoteScale()){
+            pointerNote.column += getNoteScale()
             return true
         }
         return false
@@ -230,6 +236,14 @@ class MidiStructure (var rows: Int, var bars: Int) {
         pitches = args
     }
 
+    private fun getNoteScale() = when(pointerNote.type){
+        WHOLE_NOTE -> 8
+        HALF_NOTE -> 4
+        QUARTER_NOTE -> 2
+        EIGHTH_NOTE -> 1
+        else -> 1
+    }
+
     fun toMidi(context: Context): File{
 
         Log.d(DEBUG_TAG, "toMidi Called")
@@ -246,14 +260,14 @@ class MidiStructure (var rows: Int, var bars: Int) {
         tempoTrack.insertEvent(ts)
         tempoTrack.insertEvent(tempo)
 
-        for( i in 0 until (bars * 8 - 1)){
+        for( i in 0 until (bars * 8)){
             for(j in 0 until (rows)){
                 if(noteGrid[j][i] % 2 == 0){
                     val channel = 0
                     val pitch = DEFAULT_PENTATONIC_PITCHES[j]
-                    val velocity = 100
+                    val velocity = 80
                     val tick = i * 480.toLong()
-                    val duration: Long = 120
+                    val duration: Long = (120 * getNoteScale()).toLong()
                     noteTrack.insertNote(channel, pitch, velocity, tick, duration)
                 }
             }
@@ -279,7 +293,21 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
     }
 
-    fun fromMidi(){
+    fun loadMidi(file: File){
+        Log.d(DEBUG_TAG, "Midi Received")
+
+        val midi = MidiFile(file)
+        val track = midi.tracks[1]
+        val trackIterator = track.events.iterator()
+
+
+        for(event in trackIterator){
+            var notePos = (event.tick / 480).toInt()
+            var notePitch = (event as NoteOn).noteValue
+            Log.d(DEBUG_TAG, "Midi Event Found at $notePos, ${DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch)}")
+            if(notePos < noteGrid[0].size && DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch) < noteGrid.size)
+                addEighthNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
+        }
 
     }
 
@@ -313,12 +341,12 @@ class MidiStructure (var rows: Int, var bars: Int) {
             add(52)}
 
         val DEFAULT_PENTATONIC_PITCHES = ArrayList<Int>().apply {
-            add(40)
-            add(42)
-            add(44)
-            add(47)
+            add(52)
             add(49)
-            add(52)}
+            add(47)
+            add(44)
+            add(42)
+            add(40) }
     }
 
 }

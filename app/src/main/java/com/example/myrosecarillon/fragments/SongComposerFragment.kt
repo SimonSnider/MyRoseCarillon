@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
+import com.example.myrosecarillon.midiEditor.MidiStructure
 import com.example.myrosecarillon.midiEditor.MidiUploader
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.*
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.compose_button
@@ -46,12 +48,28 @@ class SongComposerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.whole_note_button.setOnClickListener {
+            view.composer_view.setPointerNote(MidiStructure.WHOLE_NOTE)
+        }
+        view.half_note_button.setOnClickListener {
+            view.composer_view.setPointerNote(MidiStructure.HALF_NOTE)
+        }
+        view.quarter_note_button.setOnClickListener {
+            view.composer_view.setPointerNote(MidiStructure.QUARTER_NOTE)
+        }
+        view.eighth_note_button.setOnClickListener {
+            view.composer_view.setPointerNote(MidiStructure.EIGHTH_NOTE)
+        }
+
         view.compose_button.setOnClickListener {
             val uploader = MidiUploader()
             val midi = view.composer_view.getMidi()
             val name = view.composer_title_view.text.toString()
-            if(midi != null)
-            uploader.storageAdd(midi, name)
+            if(midi != null) {
+                uploader.storageAdd(midi, name)
+                findNavController().navigate(R.id.action_songComposerFragment_to_mySongsFragment)
+            }
+
         }
     }
 

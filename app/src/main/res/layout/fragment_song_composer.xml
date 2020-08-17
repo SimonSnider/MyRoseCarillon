@@ -49,26 +49,35 @@
         android:showDividers="middle"
         android:divider="@drawable/empty_divider"
         android:layout_below="@id/notes_title">
-        <Button
+
+        <ImageButton
+            android:id="@+id/whole_note_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@color/colorDetail" />
-        <Button
+            android:background="@color/colorDetail"
+            android:src="@drawable/ic_whole_note" />
+        <ImageButton
+            android:id="@+id/half_note_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@color/colorDetail" />
-        <Button
+            android:background="@color/colorDetail"
+            android:src="@drawable/ic_half_note" />
+        <ImageButton
+            android:id="@+id/quarter_note_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@color/colorDetail" />
-        <Button
+            android:background="@color/colorDetail"
+            android:src="@drawable/ic_quarter_note" />
+        <ImageButton
+            android:id="@+id/eighth_note_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@color/colorDetail" />
+            android:background="@color/colorDetail"
+            android:src="@drawable/ic_eighth_note" />
     </LinearLayout>
 
     <TextView

@@ -87,11 +87,10 @@
                     android:layout_weight="1" />
 
             </LinearLayout>
-            <ImageView
+            <com.example.myrosecarillon.midiEditor.MidiComposerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:src="@tools:sample/backgrounds/scenic"/>
+                app:isDisplay="true" />
 
         </LinearLayout>
     </RelativeLayout>

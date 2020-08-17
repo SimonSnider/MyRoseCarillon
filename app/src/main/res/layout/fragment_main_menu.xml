@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="10dp"
     tools:context=".fragments.MainMenuFragment">
 
@@ -70,11 +71,10 @@
                         android:text="@string/temp_score" />
 
                 </LinearLayout>
-                <ImageView
+                <com.example.myrosecarillon.midiEditor.MidiComposerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@tools:sample/backgrounds/scenic"/>
+                    app:isDisplay="true"/>
 
             </LinearLayout>
         </RelativeLayout>
@@ -148,11 +148,10 @@
                         android:text="@string/temp_score" />
 
                 </LinearLayout>
-                <ImageView
+                <com.example.myrosecarillon.midiEditor.MidiComposerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@tools:sample/backgrounds/scenic"/>
+                    app:isDisplay="true"/>
 
             </LinearLayout>
         </RelativeLayout>
@@ -204,11 +203,10 @@
                         android:text="@string/temp_score" />
 
                 </LinearLayout>
-                <ImageView
+                <com.example.myrosecarillon.midiEditor.MidiComposerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    tools:src="@tools:sample/backgrounds/scenic"/>
+                    app:isDisplay="true"/>
 
             </LinearLayout>
         </RelativeLayout>

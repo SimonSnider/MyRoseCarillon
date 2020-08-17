@@ -6,5 +6,6 @@
         <attr name="showBars" format="boolean"/>
         <attr name="bars" format="integer"/>
         <attr name="lineColor" format="color"/>
+        <attr name="isDisplay" format="boolean"/>
     </declare-styleable>
 </resources>
