@@ -2,13 +2,11 @@ package com.example.myrosecarillon.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.SongBoardAdapter
@@ -36,7 +34,6 @@ class SongBoardFragment : Fragment() {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
-
         setHasOptionsMenu(true)
     }
 
@@ -54,6 +51,10 @@ class SongBoardFragment : Fragment() {
         adapter.addSnapshotListener()
         song_board_recycler_view.adapter = adapter
         song_board_recycler_view.layoutManager = LinearLayoutManager(context)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.findItem(R.id.action_add_post).isVisible = true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -104,7 +105,9 @@ class SongBoardFragment : Fragment() {
 
 
         builder.setPositiveButton(android.R.string.ok) {_, _ ->
-            postRef.add(Post(date = Timestamp.now(), userRef = userRef.document(auth.currentUser!!.uid), songRef = songsRef.document(selectedSong!!.id)))
+            if (adapter.checkForSong(selectedSong?.id)){
+                Toast.makeText(context, "You have already posted that song", Toast.LENGTH_LONG).show()
+            } else postRef.add(Post(date = Timestamp.now(), userRef = userRef.document(auth.currentUser!!.uid), songRef = songsRef.document(selectedSong!!.id)))
         }
         builder.setNegativeButton(android.R.string.cancel) {_, _ ->}
 

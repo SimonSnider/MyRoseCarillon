@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        menu.findItem(R.id.action_add_post).isVisible = false
         return true
     }
 
@@ -59,11 +60,6 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
-            R.id.action_login -> {
-                launchLoginUI()
-                true
-            }
             R.id.action_logout -> {
                 authFlag = false
                 auth.signOut()

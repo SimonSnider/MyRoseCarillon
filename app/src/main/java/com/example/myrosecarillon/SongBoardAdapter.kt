@@ -84,4 +84,13 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
         post.rating = upvotes - downvotes
         postsRef.document(post.id).set(post)
     }
+
+    fun checkForSong(id: String?): Boolean {
+        for(post in posts){
+            if (post.song?.id == id){
+                return true
+            }
+        }
+        return false
+    }
 }

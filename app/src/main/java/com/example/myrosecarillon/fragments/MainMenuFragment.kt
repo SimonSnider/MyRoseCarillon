@@ -88,7 +88,6 @@ class MainMenuFragment : Fragment() {
                 findNavController().navigate(R.id.action_mainMenuFragment_to_profileFragment)
                 true
             }
-            R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
     }

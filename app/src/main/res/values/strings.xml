@@ -51,6 +51,6 @@
     <string name="light_mode">Light Mode</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="add_post">Add Post</string>
-    <string name="choose_song">Choose Song</string>
+    <string name="choose_song">Choose a Song</string>
 
 </resources>
