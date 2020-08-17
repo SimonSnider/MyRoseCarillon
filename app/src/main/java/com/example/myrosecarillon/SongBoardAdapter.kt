@@ -34,13 +34,6 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         for (documentChange in querySnapshot.documentChanges) {
             val post = Post.fromSnapshot(documentChange.document)
-            Log.d(Constants.TAG, "votes: ${post.votes}")
-            Log.d(Constants.TAG, "user vote: ${post.votes?.get(auth.currentUser?.uid)}")
-//            songsRef.document("pAO7xNyb3QtrbxNWMXEM").get().addOnCompleteListener() { task ->
-//                post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
-//                val index = posts.indexOfFirst { it.id == post.id }
-//                notifyItemChanged(index)
-//            }
             post.songRef?.get()?.addOnCompleteListener() {task ->
                 post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
                 val index = posts.indexOfFirst { it.id == post.id }
@@ -48,18 +41,18 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
             }
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
-                    Log.d(Constants.TAG, "Adding $post")
+                    Log.d(Constants.TAG, "Adding ${post.id}")
                     posts.add(0, post)
                     notifyItemInserted(0)
                 }
                 DocumentChange.Type.REMOVED -> {
-                    Log.d(Constants.TAG, "Removing $post")
+                    Log.d(Constants.TAG, "Removing ${post.id}")
                     val index = posts.indexOfFirst{it.id == post.id}
                     posts.removeAt(index)
                     notifyItemRemoved(index)
                 }
                 DocumentChange.Type.MODIFIED -> {
-                    Log.d(Constants.TAG, "Modifying $post")
+                    Log.d(Constants.TAG, "Modifying ${post.id}")
                     val index = posts.indexOfFirst { it.id == post.id }
                     posts[index] = post
                     notifyItemChanged(index)

@@ -15,6 +15,10 @@ class Post(
     @get:Exclude var user: User? = null
     @get:Exclude var song: Song? = null
 
+    override fun toString(): String {
+        return "$id, $rating"
+    }
+
     companion object {
         const val RATING_KEY = "rating"
 
