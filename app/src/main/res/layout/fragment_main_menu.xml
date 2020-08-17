@@ -72,6 +72,7 @@
 
                 </LinearLayout>
                 <com.example.myrosecarillon.midiEditor.MidiComposerView
+                    android:id="@+id/now_playing_score"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:isDisplay="true"/>
@@ -149,6 +150,7 @@
 
                 </LinearLayout>
                 <com.example.myrosecarillon.midiEditor.MidiComposerView
+                    android:id="@+id/up_next_score"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:isDisplay="true"/>
@@ -204,6 +206,7 @@
 
                 </LinearLayout>
                 <com.example.myrosecarillon.midiEditor.MidiComposerView
+                    android:id="@+id/future_score"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:isDisplay="true"/>

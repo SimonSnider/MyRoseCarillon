@@ -69,14 +69,17 @@ class MainMenuFragment : Fragment() {
             0 -> {
                 view?.card_title?.text = post.song?.title
                 view?.rating?.text = post.rating.toString()
+                post.song?.midi?.let { view?.now_playing_score?.sendMidi(it) }
             }
             1 -> {
                 view?.up_next_song_name?.text = post.song?.title
                 view?.rating_1?.text = post.rating.toString()
+                post.song?.midi?.let { view?.up_next_score?.sendMidi(it) }
             }
             2 -> {
                 view?.future_song_name?.text = post.song?.title
                 view?.rating_2?.text = post.rating.toString()
+                post.song?.midi?.let { view?.future_score?.sendMidi(it) }
             }
         }
     }
