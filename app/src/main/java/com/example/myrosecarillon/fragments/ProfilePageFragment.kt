@@ -126,11 +126,19 @@ class ProfilePageFragment : Fragment() {
 
                     return@Continuation storageRef.child(id).downloadUrl
                 }).addOnCompleteListener { task ->
+                    val oldPictureUrl = user.pictureUrl
                     user.pictureUrl = task.result.toString()
                     userRef.document(user.id).set(user)
+                    deleteOldPicture(oldPictureUrl)
                 }
             }
         }
+    }
+
+    private fun deleteOldPicture(url: String) {
+        var name = url.substring(url.indexOf("%2F") + 3, (url.indexOf('?')))
+        name = name.replace("%20"," ")
+        storageRef.child(name).delete()
     }
 
 //    companion object {
