@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayShowTitleEnabled(false);
         initializeListeners()
     }
 

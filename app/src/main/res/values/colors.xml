@@ -6,4 +6,5 @@
     <color name="colorDetail">#EEEEEE</color>
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorDetailDark">#DDDDDD</color>
+    <color name="textMain">#000000</color>
 </resources>
