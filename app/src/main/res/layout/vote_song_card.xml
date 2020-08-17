@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -16,6 +17,13 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@color/colorAccent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/post_user_profile_image_view"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                tools:src="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/card_title"

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.objects.Post
 import com.example.myrosecarillon.objects.Song
+import com.example.myrosecarillon.objects.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 
@@ -15,7 +16,7 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
 
     private val posts = ArrayList<Post>()
     private val postsRef = FirebaseFirestore.getInstance().collection(Constants.POSTS_PATH)
-    private val songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
+    private val songsRef = Constants.songsRef
     private val auth = FirebaseAuth.getInstance()
     private lateinit var listenerRegistration: ListenerRegistration
 
@@ -74,7 +75,8 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
 
     fun vote(position: Int, num: Int){
         val post = posts[position]
-        if(post.votes?.get(auth.currentUser?.uid) == num){
+        var previous = post.votes?.get(auth.currentUser?.uid)
+        if(previous == num){
             auth.currentUser?.uid?.let { post.votes?.put(it, 0) }
         } else auth.currentUser?.uid?.let { post.votes?.put(it, num) }
         val upvotes = post.votes?.count{it.value == 1} ?: 0
@@ -83,6 +85,14 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
         post.dislikes = downvotes
         post.rating = upvotes - downvotes
         postsRef.document(post.id).set(post)
+
+        if (num != -1){
+
+        }
+        post.userRef?.get()?.addOnSuccessListener {
+            val user = User.fromSnapshot(it)
+            user.getUpvote(previous, num)
+        }
     }
 
     fun checkForSong(id: String?): Boolean {

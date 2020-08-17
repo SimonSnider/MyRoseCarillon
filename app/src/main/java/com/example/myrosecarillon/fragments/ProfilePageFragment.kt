@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
 import com.example.myrosecarillon.constants.Constants
+import com.example.myrosecarillon.objects.Song
 import com.example.myrosecarillon.objects.User
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
@@ -40,6 +41,7 @@ class ProfilePageFragment : Fragment() {
     private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
     private val auth = FirebaseAuth.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference.child("Pictures")
+    private val songsRef = FirebaseFirestore.getInstance().collection(Constants.SONGS_PATH)
     private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +65,7 @@ class ProfilePageFragment : Fragment() {
                 view.name_text_view.text = user.displayName
                 view.carills_stat_text_view.text = String.format(requireContext().resources.getString(R.string.carills_var), user.carills)
                 view.songs_played_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_played_var), user.carills)
-                view.songs_uploaded_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_uploaded_var), user.carills)
+                view.songs_uploaded_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_uploaded_var), user.upvotesReceived)
                 view.upvotes_given_stat_text_view.text = String.format(requireContext().resources.getString(R.string.upvotes_given_var), user.carills)
                 Picasso.get().load(user.pictureUrl).into(view.findViewById<ImageView>(R.id.profile_imageView))
             }
@@ -76,6 +78,7 @@ class ProfilePageFragment : Fragment() {
         }
         return view
     }
+
 
     private fun launchSettingsDialog() {
         val builder = AlertDialog.Builder(context)
