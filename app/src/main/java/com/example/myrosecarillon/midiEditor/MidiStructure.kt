@@ -84,31 +84,40 @@ class MidiStructure (var rows: Int, var bars: Int) {
     }
 
     fun addHalfNote(row: Int, column: Int) : Boolean{
-        return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY && noteGrid[row][column + 2] == EMPTY && noteGrid[row][column + 3] == EMPTY){
-            noteGrid[row][column] =
-                HALF_NOTE
-            noteGrid[row][column+1] =
-                HALF_NOTE_FILLER
-            noteGrid[row][column+2] =
-                HALF_NOTE_FILLER
-            noteGrid[row][column+3] =
-                HALF_NOTE_FILLER
-            true
-        }else {
-            false
+        try {
+            return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY && noteGrid[row][column + 2] == EMPTY && noteGrid[row][column + 3] == EMPTY){
+                noteGrid[row][column] =
+                    HALF_NOTE
+                noteGrid[row][column+1] =
+                    HALF_NOTE_FILLER
+                noteGrid[row][column+2] =
+                    HALF_NOTE_FILLER
+                noteGrid[row][column+3] =
+                    HALF_NOTE_FILLER
+                true
+            }else {
+                false
+            }
+        }catch (e: Exception){
+            return false
         }
     }
 
     fun addQuarterNote(row: Int, column: Int) : Boolean{
-        return if(noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY){
-            noteGrid[row][column] =
-                QUARTER_NOTE
-            noteGrid[row][column+1] =
-                QUARTER_NOTE_FILLER
-            true
-        }else {
-            false
+        try {
+            return if (noteGrid[row][column] == EMPTY && noteGrid[row][column + 1] == EMPTY) {
+                noteGrid[row][column] =
+                    QUARTER_NOTE
+                noteGrid[row][column + 1] =
+                    QUARTER_NOTE_FILLER
+                true
+            } else {
+                false
+            }
+        }catch (e: Exception){
+            return false
         }
+
     }
 
     fun addEighthNote(row: Int, column: Int) : Boolean{
@@ -213,8 +222,8 @@ class MidiStructure (var rows: Int, var bars: Int) {
     }
 
     fun movePointerRight(): Boolean{
-        if(pointerNote.column < (bars * 8) - getNoteScale()){
-            pointerNote.column += getNoteScale()
+        if(pointerNote.column < (bars * 8) - getNoteScale(pointerNote.type)){
+            pointerNote.column += getNoteScale(pointerNote.type)
             return true
         }
         return false
@@ -236,7 +245,7 @@ class MidiStructure (var rows: Int, var bars: Int) {
         pitches = args
     }
 
-    private fun getNoteScale() = when(pointerNote.type){
+    private fun getNoteScale(noteType: Int) = when(noteType){
         WHOLE_NOTE -> 8
         HALF_NOTE -> 4
         QUARTER_NOTE -> 2
@@ -267,7 +276,7 @@ class MidiStructure (var rows: Int, var bars: Int) {
                     val pitch = DEFAULT_PENTATONIC_PITCHES[j]
                     val velocity = 80
                     val tick = i * 480.toLong()
-                    val duration: Long = (120 * getNoteScale()).toLong()
+                    val duration: Long = (120 * getNoteScale(noteGrid[j][i])).toLong()
                     noteTrack.insertNote(channel, pitch, velocity, tick, duration)
                 }
             }
@@ -303,10 +312,17 @@ class MidiStructure (var rows: Int, var bars: Int) {
 
         for(event in trackIterator){
             var notePos = (event.tick / 480).toInt()
+            if(notePos == 1) notePos--
+            var noteDelta = (event.delta / 120).toInt()
             var notePitch = (event as NoteOn).noteValue
-            Log.d(DEBUG_TAG, "Midi Event Found at $notePos, ${DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch)}")
-            if(notePos < noteGrid[0].size && DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch) < noteGrid.size)
-                addEighthNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
+            Log.d(DEBUG_TAG, "Midi Event Found at ${(event as NoteOn).velocity}")
+            if(notePos < noteGrid[0].size && DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch) < noteGrid.size && (event as NoteOn).velocity == 0)
+                when(noteDelta){
+                    8 -> addWholeNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
+                    4 -> addHalfNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
+                    2 -> addQuarterNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
+                    1 -> addEighthNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
+                }
         }
 
     }

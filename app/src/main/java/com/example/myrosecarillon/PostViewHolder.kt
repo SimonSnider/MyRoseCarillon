@@ -12,6 +12,7 @@ import com.example.myrosecarillon.objects.Post
 import com.example.myrosecarillon.objects.Song
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.my_song_card.view.*
 import kotlinx.android.synthetic.main.vote_song_card.view.*
 import kotlinx.android.synthetic.main.vote_song_card.view.card_title
 
@@ -58,6 +59,7 @@ class PostViewHolder(itemView: View, val context: Context, val adapter: SongBoar
                 upvoteButton.colorFilter = null
             }
         }
+        post.song?.midi?.let { cardView.post_composer.sendMidi(it) }
     }
 
     override fun onSongLoaded(song: Song?) {
