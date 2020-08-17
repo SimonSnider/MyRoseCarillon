@@ -83,7 +83,7 @@ class SongBoardFragment : Fragment() {
             val songTitles = songs.map {it.title}
 
             val spinner = view.choose_song_spinner
-            spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, songTitles)
+            spinner.adapter = ArrayAdapter(requireContext(), R.layout.spinner_item, songTitles)
 
             spinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
