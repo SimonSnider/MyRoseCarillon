@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_fileUploaderFragment_to_profilePageFragment"
             app:destination="@id/profilePageFragment" />
+        <action
+            android:id="@+id/action_fileUploaderFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/mySongsFragment"
@@ -53,6 +56,9 @@
         <action
             android:id="@+id/action_mySongsFragment_to_profilePageFragment"
             app:destination="@id/profilePageFragment" />
+        <action
+            android:id="@+id/action_mySongsFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/songComposerFragment"
@@ -65,6 +71,9 @@
         <action
             android:id="@+id/action_songComposerFragment_to_profilePageFragment2"
             app:destination="@id/profilePageFragment" />
+        <action
+            android:id="@+id/action_songComposerFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/songBoardFragment"
@@ -74,6 +83,9 @@
         <action
             android:id="@+id/action_songBoardFragment_to_profilePageFragment"
             app:destination="@id/profilePageFragment" />
+        <action
+            android:id="@+id/action_songBoardFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/profilePageFragment"
@@ -83,6 +95,9 @@
         <action
             android:id="@+id/action_profilePageFragment_to_mySongsFragment"
             app:destination="@id/mySongsFragment"/>
+        <action
+            android:id="@+id/action_profilePageFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment" />
 
     </fragment>
 </navigation>

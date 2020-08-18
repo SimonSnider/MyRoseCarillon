@@ -5,8 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.fragments.LogInFragment
 import com.example.myrosecarillon.fragments.MainMenuFragment
@@ -17,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.rosefire.Rosefire
 import edu.rosehulman.rosefire.RosefireResult
+import kotlinx.android.synthetic.main.content_main.*
 import java.io.FileInputStream
 
 
@@ -34,6 +40,11 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false);
+
+        (findViewById<Button>(R.id.toolbar_title))?.setOnClickListener {
+            findNavController(R.id.nav_host_fragment).navigate(R.id.mainMenuFragment)
+        }
+
         initializeListeners()
     }
 
