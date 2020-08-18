@@ -45,6 +45,7 @@ class MainMenuFragment : Fragment() {
         view.compose_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songComposerFragment) }
         view.upload_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_fileUploaderFragment) }
         view.view_all_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songBoardFragment) }
+        view.my_songs_nav_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_mySongsFragment) }
     }
 
     private fun getTopThree() {

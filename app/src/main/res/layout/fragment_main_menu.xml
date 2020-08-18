@@ -272,4 +272,13 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/my_songs_nav_button"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_region"
+        android:background="@color/colorDetailDark"
+        android:text="My Songs" />
+
 </RelativeLayout>

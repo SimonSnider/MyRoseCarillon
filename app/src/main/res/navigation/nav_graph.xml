@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_profileFragment"
             app:destination="@id/profilePageFragment"/>
+        <action
+            android:id="@+id/action_mainMenuFragment_to_mySongsFragment"
+            app:destination="@id/mySongsFragment" />
     </fragment>
     <fragment
         android:id="@+id/fileUploaderFragment"
