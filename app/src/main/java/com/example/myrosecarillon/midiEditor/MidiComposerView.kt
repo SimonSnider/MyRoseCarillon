@@ -23,8 +23,8 @@ import kotlin.math.abs
 
 class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
 
-    private var lines: Int
-    private var bars: Int
+    private var lines: Int = 6
+    private var bars: Int = 2
     private var lineColor: Int
     private var showLines: Boolean
     private var showBars: Boolean
@@ -48,6 +48,12 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
             midiStructure?.movePointerRight()
             postInvalidate()
             super.onLongPress(e)
+        }
+
+        override fun onDoubleTap(e: MotionEvent?): Boolean {
+            midiStructure = MidiStructure(lines, bars)
+            postInvalidate()
+            return super.onDoubleTap(e)
         }
 
         override fun onFling(
@@ -187,7 +193,7 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
                             ?: 0) + 1) * width / ((bars * 8) + 1).toFloat()),
                         (((midiStructure?.getPointerY()
                             ?: 0) + 1) * height / (lines + 1)).toFloat(),
-                        height / 20F,
+                        height / 40F,
                         notePaint
                     )
                 }
@@ -202,6 +208,11 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
 
     fun getMidi(): File? {
         return midiStructure?.toMidi(context)
+    }
+
+    fun resetMidi(){
+        midiStructure = MidiStructure(lines, bars)
+        postInvalidate()
     }
 
     fun sendMidi(url: String) {

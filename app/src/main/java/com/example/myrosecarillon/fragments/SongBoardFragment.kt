@@ -99,6 +99,9 @@ class SongBoardFragment : Fragment() {
                 ) {
                     selectedSong = songs[position]
                     view.card_title.text = selectedSong!!.title
+                    view.spinner_display.resetMidi()
+                    view.spinner_display.sendMidi(selectedSong!!.midi)
+                    view.play_song_demo.setOnClickListener { view.spinner_display.play() }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {

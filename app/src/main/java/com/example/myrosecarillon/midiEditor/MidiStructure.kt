@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.core.net.toUri
 import com.leff.midi.MidiFile
 import com.leff.midi.MidiTrack
+import com.leff.midi.event.MidiEvent
 import com.leff.midi.event.NoteOn
 import com.leff.midi.event.meta.Tempo
 import com.leff.midi.event.meta.TimeSignature
@@ -323,6 +324,7 @@ class MidiStructure (var rows: Int, var bars: Int) {
                     2 -> addQuarterNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
                     1 -> addEighthNote(DEFAULT_PENTATONIC_PITCHES.indexOf(notePitch), notePos)
                 }
+
         }
 
     }

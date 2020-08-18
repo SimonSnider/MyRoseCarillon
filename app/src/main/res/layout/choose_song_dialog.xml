@@ -70,6 +70,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     app:isDisplay="true"
+                    android:id="@+id/spinner_display"
                     tools:src="@tools:sample/backgrounds/scenic"/>
 
             </LinearLayout>

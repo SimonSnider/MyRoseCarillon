@@ -5,7 +5,8 @@
     android:layout_margin="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SongComposerFragment">
+    tools:context=".fragments.SongComposerFragment"
+    tools:ignore="ExtraText">
 
     <EditText
         android:id="@+id/composer_title_view"
@@ -80,6 +81,7 @@
             android:src="@drawable/ic_eighth_note" />
     </LinearLayout>
 
+    <!--
     <TextView
         android:id="@+id/rests_title"
         android:layout_width="match_parent"
@@ -136,6 +138,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorDetail"
         android:layout_below="@id/bpm"/>
+    -->
 
     <Button
         android:id="@+id/compose_button"
