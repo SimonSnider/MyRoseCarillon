@@ -54,7 +54,6 @@ class FileUploaderFragment : Fragment() {
         when (item.itemId) {
             R.id.action_profile -> {
                 findNavController().navigate(R.id.action_fileUploaderFragment_to_profilePageFragment)
-                true
             }
         }
         return super.onOptionsItemSelected(item)

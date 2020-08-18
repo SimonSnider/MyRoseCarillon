@@ -63,9 +63,9 @@ class ProfilePageFragment : Fragment() {
                 user = User.fromSnapshot(snap)
                 view.name_text_view.text = user.displayName
                 view.carills_stat_text_view.text = String.format(requireContext().resources.getString(R.string.carills_var), user.carills)
-                view.songs_played_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_played_var), user.carills)
-                view.songs_uploaded_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_uploaded_var), user.upvotesReceived)
-                view.upvotes_given_stat_text_view.text = String.format(requireContext().resources.getString(R.string.upvotes_given_var), user.carills)
+                view.songs_played_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_played_var), 0)
+                view.songs_uploaded_stat_text_view.text = String.format(requireContext().resources.getString(R.string.songs_uploaded_var), user.songsUploaded)
+                view.upvotes_given_stat_text_view.text = String.format(requireContext().resources.getString(R.string.upvotes_given_var), user.upvotesReceived)
                 Picasso.get().load(user.pictureUrl).into(view.findViewById<ImageView>(R.id.profile_imageView))
             }
         }

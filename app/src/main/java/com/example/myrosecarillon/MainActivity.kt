@@ -1,6 +1,7 @@
 package com.example.myrosecarillon
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -80,6 +81,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 
 
     private fun initializeListeners() {
