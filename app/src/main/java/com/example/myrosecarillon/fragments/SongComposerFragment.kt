@@ -8,8 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.R
+import com.example.myrosecarillon.constants.Constants
 import com.example.myrosecarillon.midiEditor.MidiStructure
 import com.example.myrosecarillon.midiEditor.MidiUploader
+import com.example.myrosecarillon.objects.User
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.*
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.compose_button
 import kotlinx.android.synthetic.main.fragment_file_uploader.view.composer_view
@@ -29,6 +32,8 @@ class SongComposerFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private var auth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +74,10 @@ class SongComposerFragment : Fragment() {
             val name = view.composer_title_view.text.toString()
             if(midi != null) {
                 uploader.storageAdd(midi, name)
+                auth.currentUser?.uid?.let { it1 -> Constants.userRef.document(it1).get().addOnSuccessListener {
+                    val user = User.fromSnapshot(it)
+                    user.uploadSong()
+                } }
                 findNavController().navigate(R.id.action_songComposerFragment_to_mySongsFragment)
             }
 

@@ -35,9 +35,6 @@ import kotlin.random.Random
 
 const val GET_IMAGE_REQUEST_CODE = 100
 class ProfilePageFragment : Fragment() {
-    //    // TODO: Rename and change types of parameters
-//    private var param1: String? = null
-//    private var param2: String? = null
     private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
     private val auth = FirebaseAuth.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference.child("Pictures")
@@ -46,10 +43,6 @@ class ProfilePageFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
     }
 
     override fun onCreateView(
@@ -58,6 +51,7 @@ class ProfilePageFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_profile_page, container, false)
+        //gets the data from the user object and displays it on the fragment
         auth.currentUser?.uid?.let {
             userRef.document(it).get().addOnSuccessListener { snap ->
                 user = User.fromSnapshot(snap)
@@ -69,6 +63,7 @@ class ProfilePageFragment : Fragment() {
                 Picasso.get().load(user.pictureUrl).into(view.findViewById<ImageView>(R.id.profile_imageView))
             }
         }
+        //initializes the navigation and settings button
         view.my_songs_button.setOnClickListener{
             findNavController().navigate(R.id.action_profilePageFragment_to_mySongsFragment)
         }
@@ -78,7 +73,7 @@ class ProfilePageFragment : Fragment() {
         return view
     }
 
-
+    //launches the settings dialog to allow the user to change their profile picture, display name, and light/dark preferences
     private fun launchSettingsDialog() {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("User Settings")
@@ -88,12 +83,14 @@ class ProfilePageFragment : Fragment() {
         if (user.darkMode) view.light_dark_toggle_button.toggle()
         view.display_name_edit_text.setText(user.displayName)
 
+        //launches an intent to choose a picture from the device
         view.choose_profile_picture_button.setOnClickListener{
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, GET_IMAGE_REQUEST_CODE)
         }
 
+        //confirms the changes made and updates the user document on the database
         builder.setPositiveButton(android.R.string.ok){_,_ ->
             if (!view.display_name_edit_text.text.isBlank()) {
                 user.displayName = view.display_name_edit_text.text.toString()
@@ -110,14 +107,16 @@ class ProfilePageFragment : Fragment() {
         builder.create().show()
     }
 
+    //catches the result of the get image intent and updates the user's profile picture
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK && requestCode == GET_IMAGE_REQUEST_CODE) {
             val image: Uri? = data?.data
             if (image != null) {
+
+                //sends the new picture to the database storage
                 val bitmap = MediaStore.Images.Media.getBitmap(requireContext().contentResolver, image)
                 view?.profile_imageView?.setImageBitmap(bitmap)
-
                 val baos = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
                 val outData = baos.toByteArray()
@@ -128,6 +127,7 @@ class ProfilePageFragment : Fragment() {
 
                     return@Continuation storageRef.child(id).downloadUrl
                 }).addOnCompleteListener { task ->
+                    //saves the old picture url for deletion and sets the user's picture url to the newly stored one
                     val oldPictureUrl = user.pictureUrl
                     user.pictureUrl = task.result.toString()
                     userRef.document(user.id).set(user)
@@ -137,29 +137,11 @@ class ProfilePageFragment : Fragment() {
         }
     }
 
+    //deletes the old picture when a user changes it to save space in storage
     private fun deleteOldPicture(url: String) {
         var name = url.substring(url.indexOf("%2F") + 3, (url.indexOf('?')))
         name = name.replace("%20"," ")
         storageRef.child(name).delete()
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment ProfilePageFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            ProfilePageFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }

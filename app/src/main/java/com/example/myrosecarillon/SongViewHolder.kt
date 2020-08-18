@@ -20,11 +20,17 @@ class SongViewHolder(itemView: View, val adapter: MySongsAdapter) : RecyclerView
             //TODO: Navigate to compose fragment with this song's midi
             Log.d(Constants.TAG, "Editing song ${song.id}")
         }
+
+        //sets the play button to play the song
         cardView.play_song.setOnClickListener {
             cardView.song_card_display.play()
             Log.d(Constants.TAG, "Playing song ${song.id}")
         }
+
+        //displays the midi's music on the card
         cardView.song_card_display.sendMidi(song.midi)
+
+        //sets the delete button to tell the adapter to delete the song
         cardView.delete_song.setOnClickListener{
             adapter.showDeleteDialog(adapterPosition)
         }

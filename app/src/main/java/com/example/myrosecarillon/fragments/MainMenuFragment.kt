@@ -24,10 +24,8 @@ class MainMenuFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -35,19 +33,22 @@ class MainMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_main_menu, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         getTopThree()
+
+        //sets up navigation buttons
         view.compose_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songComposerFragment) }
         view.upload_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_fileUploaderFragment) }
         view.view_all_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_songBoardFragment) }
         view.my_songs_nav_button.setOnClickListener { findNavController().navigate(R.id.action_mainMenuFragment_to_mySongsFragment) }
     }
 
+    //gets the top three rated posts from the database and puts them in the preview sections
     private fun getTopThree() {
         topThree = ArrayList<Post>()
         postRef.orderBy(Post.RATING_KEY, Query.Direction.DESCENDING).limit(3).get().addOnSuccessListener {querySnapshot ->
@@ -64,6 +65,7 @@ class MainMenuFragment : Fragment() {
         }
     }
 
+    //takes a post and updates the preview section for the relevant post
     private fun updateView(index: Int) {
         val post = topThree[index]
         when(index){
@@ -85,6 +87,7 @@ class MainMenuFragment : Fragment() {
         }
     }
 
+    //allows this fragment to navigate to the profile page
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_profile -> {

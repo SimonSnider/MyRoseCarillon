@@ -15,14 +15,11 @@ class Song (var creatorID: String = "", var midi: String = "", var title: String
         const val DATE_KEY = "creationDate"
         const val CREATOR_ID_KEY = "creatorID"
 
+        //creates a song object from a firebase snapshot
         fun fromSnapshot(snapshot: DocumentSnapshot): Song {
             val song: Song = snapshot.toObject(
                 Song::class.java)!!
             song.id = snapshot.id
-//            if (song.userRef != null) {
-//                song.user =
-//                    User.fromSnapshot(song.userRef!!.get().result!!)
-//            }
             return song
         }
     }

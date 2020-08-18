@@ -15,24 +15,12 @@ class Post(
     @get:Exclude var user: User? = null
     @get:Exclude var song: Song? = null
 
-    override fun toString(): String {
-        return "$id, $rating"
-    }
-
     companion object {
         const val RATING_KEY = "rating"
-
+        //creates a post object from a firebase snapshot
         fun fromSnapshot(snapshot: DocumentSnapshot): Post {
             val post = snapshot.toObject(Post::class.java)!!
             post.id = snapshot.id
-//            if (post.userRef != null){
-//                post.user =
-//                    User.fromSnapshot(post.userRef!!.get().result!!)
-//            }
-//            if (post.songRef != null){
-//                post.song =
-//                    Song.fromSnapshot(post.songRef!!.get().result!!)
-//            }
             return post
         }
     }

@@ -14,7 +14,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.myrosecarillon.constants.Constants
-import com.example.myrosecarillon.fragments.LogInFragment
 import com.example.myrosecarillon.fragments.MainMenuFragment
 import com.example.myrosecarillon.objects.User
 import com.google.firebase.FirebaseApp
@@ -27,9 +26,9 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.io.FileInputStream
 
 
-class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonPressedListener {
+class MainActivity : AppCompatActivity(){
 
-    private val userRef = FirebaseFirestore.getInstance().collection(Constants.USERS_PATH)
+    private val userRef = Constants.userRef
     private val auth = FirebaseAuth.getInstance()
     private var authFlag = false
     lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayShowTitleEnabled(false);
 
+        //sets the main menu button at the top of the screen to take the user to the main menu
         (findViewById<Button>(R.id.toolbar_title))?.setOnClickListener {
             findNavController(R.id.nav_host_fragment).navigate(R.id.mainMenuFragment)
         }
@@ -51,19 +51,18 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
 
     override fun onStart() {
         super.onStart()
-        Log.d(Constants.TAG, "onStart called")
         auth.addAuthStateListener(authStateListener)
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d(Constants.TAG, "onStop called")
         auth.removeAuthStateListener(authStateListener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        //hide the add post action
         menu.findItem(R.id.action_add_post).isVisible = false
         return true
     }
@@ -93,13 +92,13 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
                 Log.d(Constants.TAG, "UID = ${user.uid}")
                 userRef.document(user.uid).get().addOnSuccessListener {
                     if(!it.exists()){
-                        //TODO: first time login dialog?
-                        //TODO: light mode/dark mode
+                        //if this is a new user, add a user object to the database for them
                         Log.d(Constants.TAG, "Adding new user for first login")
                         userRef.document(user.uid).set(User(Constants.DEFAULT_PICTURE_PATH, user.uid, 0, false))
                     }
                 }
             } else if (!authFlag) {
+                //auth flag is used to prevent login screen from launching twice
                 authFlag = true
                 launchLoginUI()
             }
@@ -107,30 +106,13 @@ class MainActivity : AppCompatActivity(), LogInFragment.Companion.OnLoginButtonP
     }
 
 
-    private fun switchToMainMenuFragment() {
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.nav_host_fragment, MainMenuFragment())
-        ft.commit()
-    }
-
-    private fun switchToLoginFragment() {
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container_view_tag, LogInFragment())
-        ft.commit()
-    }
-
-    //interface function to handle button click from LoginFragment
-    override fun onLoginButtonPressed() {
-        launchLoginUI()
-    }
-
     //creates intent to open RoseFire login and launches the intent
     private fun launchLoginUI() {
         val signInIntent: Intent = Rosefire.getSignInIntent(this, getString(R.string.rosefire_key))
         startActivityForResult(signInIntent, RC_ROSEFIRE_SIGN_IN)
     }
 
-    //catches the result of the RoseFire sign in
+    //catches the result of the RoseFire sign in intent
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_ROSEFIRE_SIGN_IN){
             val result: RosefireResult = Rosefire.getSignInResultFromIntent(data)

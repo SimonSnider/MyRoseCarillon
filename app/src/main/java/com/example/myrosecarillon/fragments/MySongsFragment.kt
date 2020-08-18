@@ -19,10 +19,6 @@ class MySongsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
         setHasOptionsMenu(true)
     }
 
@@ -37,39 +33,22 @@ class MySongsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //initializes the adapter for the recycler view
         adapter = MySongsAdapter(requireContext())
         adapter.addSnapshotListener()
         my_songs_recycler_view.adapter = adapter
         my_songs_recycler_view.layoutManager  = LinearLayoutManager(requireContext())
     }
 
+    //allows this fragment to navigate to the profile page
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_profile -> {
                 findNavController().navigate(R.id.action_mySongsFragment_to_profilePageFragment)
-                true
             }
         }
         return super.onOptionsItemSelected(item)
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment MySongsFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            MySongsFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }

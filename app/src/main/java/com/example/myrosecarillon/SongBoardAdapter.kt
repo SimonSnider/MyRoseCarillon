@@ -15,14 +15,14 @@ import com.google.firebase.firestore.*
 class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHolder>(){
 
     private val posts = ArrayList<Post>()
-    private val postsRef = FirebaseFirestore.getInstance().collection(Constants.POSTS_PATH)
-    private val songsRef = Constants.songsRef
+    private val postsRef = Constants.postsRef
     private val auth = FirebaseAuth.getInstance()
     private lateinit var listenerRegistration: ListenerRegistration
 
+    //creates a snapshot listener for all the posts in the database
     fun addSnapshotListener() {
         listenerRegistration = postsRef
-            .orderBy(Post.RATING_KEY, Query.Direction.ASCENDING)
+            .orderBy(Post.RATING_KEY, Query.Direction.DESCENDING)
             .addSnapshotListener{querySnapshot, e ->
                 if (e != null) {
                     Log.w(Constants.TAG, "listen error", e)
@@ -32,9 +32,12 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
             }
     }
 
+    //processes the changes in the snapshot listener.
     private fun processSnapshotChanges(querySnapshot: QuerySnapshot) {
         for (documentChange in querySnapshot.documentChanges) {
             val post = Post.fromSnapshot(documentChange.document)
+
+            //gets the song from the document reference and adds it to the post
             post.songRef?.get()?.addOnCompleteListener() {task ->
                 post.song = task.result?.let { it1 -> Song.fromSnapshot(it1) }
                 val index = posts.indexOfFirst { it.id == post.id }
@@ -43,8 +46,8 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
             when (documentChange.type) {
                 DocumentChange.Type.ADDED -> {
                     Log.d(Constants.TAG, "Adding ${post.id}")
-                    posts.add(0, post)
-                    notifyItemInserted(0)
+                    posts.add(itemCount, post)
+                    notifyItemInserted(itemCount)
                 }
                 DocumentChange.Type.REMOVED -> {
                     Log.d(Constants.TAG, "Removing ${post.id}")
@@ -73,28 +76,34 @@ class SongBoardAdapter(val context: Context):  RecyclerView.Adapter<PostViewHold
         holder.bind(posts[position])
     }
 
+    //handles upvoting or downvoting a post. If num is 1, the post was upvoted, if num is -1, the post was downvoted
     fun vote(position: Int, num: Int){
         val post = posts[position]
-        var previous = post.votes?.get(auth.currentUser?.uid)
+        val previous = post.votes?.get(auth.currentUser?.uid)
+
+        //if the user is removing their previous vote, replace it with a 0 to indicate no vote
         if(previous == num){
             auth.currentUser?.uid?.let { post.votes?.put(it, 0) }
         } else auth.currentUser?.uid?.let { post.votes?.put(it, num) }
+
+        //counts the number of upvotes and downvotes on the post and updates its total upvotes, downvotes, and rating
         val upvotes = post.votes?.count{it.value == 1} ?: 0
         val downvotes = post.votes?.count{it.value == -1} ?: 0
         post.likes = upvotes
         post.dislikes = downvotes
         post.rating = upvotes - downvotes
+
+        //updates the post's firebase document
         postsRef.document(post.id).set(post)
 
-        if (num != -1){
-
-        }
+        //increments or decrements upvotesReceived for the post creator
         post.userRef?.get()?.addOnSuccessListener {
             val user = User.fromSnapshot(it)
             user.getUpvote(previous, num)
         }
     }
 
+    //checks whether or not a song exists in the queue already
     fun checkForSong(id: String?): Boolean {
         for(post in posts){
             if (post.song?.id == id){
