@@ -18,6 +18,11 @@ class User(var pictureUrl: String = Constants.DEFAULT_PICTURE_PATH, var displayN
 
     }
 
+    fun uploadSong() {
+        this.songsUploaded++
+        Constants.userRef.document(id).set(this)
+    }
+
     companion object {
         fun fromSnapshot(snapshot: DocumentSnapshot): User {
             val user = snapshot.toObject(User::class.java)!!
