@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myrosecarillon.constants.Constants
+import com.example.myrosecarillon.objects.Post
 import com.example.myrosecarillon.objects.Song
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.*
 class MySongsAdapter(val context: Context):  RecyclerView.Adapter<SongViewHolder>(){
 
     private val songs = ArrayList<Song>()
+    private val postsRef = Constants.postsRef
     private val songsRef = Constants.songsRef
     private val midiStorageRef = Constants.midiStorageRef
     private lateinit var listenerRegistration: ListenerRegistration
@@ -83,14 +85,28 @@ class MySongsAdapter(val context: Context):  RecyclerView.Adapter<SongViewHolder
             val url = songs[position].midi
             var name = url.substring(url.indexOf("%2F") + 3, (url.indexOf('?')))
             name = name.replace("%20"," ");
-            midiStorageRef.child(name).delete()
+
+            var post: Post
+            val id = songs[position].id
+            postsRef.get().addOnSuccessListener {snapshots ->
+                for (snapshot in snapshots) {
+                    post = Post.fromSnapshot(snapshot)
+                    if (post.songRef?.id == id) {
+                        postsRef.document(post.id).delete()
+                        break
+                    }
+                }
+                midiStorageRef.child(name).delete()
+                songsRef.document(id).delete()
+            }
 
             //removes the song object from the database
-            songsRef.document(songs[position].id).delete()
+
         }
         builder.setNegativeButton(android.R.string.cancel) {_,_ ->
 
         }
         builder.create().show()
     }
+
 }
