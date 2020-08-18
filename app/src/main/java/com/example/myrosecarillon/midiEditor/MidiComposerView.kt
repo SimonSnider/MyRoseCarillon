@@ -1,5 +1,6 @@
 package com.example.myrosecarillon.midiEditor
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -119,6 +120,7 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
         barPaint.strokeWidth = ((w - xpad) * .005).toFloat()
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -165,6 +167,7 @@ class MidiComposerView(context: Context, attributeSet: AttributeSet) : View(cont
                         MidiStructure.HALF_NOTE -> resources.getDrawable(R.drawable.ic_half_note, null)
                         MidiStructure.QUARTER_NOTE -> resources.getDrawable(R.drawable.ic_quarter_note, null)
                         MidiStructure.EIGHTH_NOTE -> resources.getDrawable(R.drawable.ic_eighth_note, null)
+                        MidiStructure.EIGHTH_REST -> resources.getDrawable(R.drawable.ic_eighth_rest, null)
                         else -> resources.getDrawable(R.drawable.ic_eighth_note, null)
                     }
 

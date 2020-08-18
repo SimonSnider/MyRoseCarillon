@@ -41,11 +41,11 @@
                     android:text="@string/song_title"/>
 
                 <ImageButton
-                    android:id="@+id/save_song"
+                    android:id="@+id/play_song_demo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/colorAccent"
-                    app:srcCompat="@android:drawable/stat_sys_download"
+                    app:srcCompat="@android:drawable/ic_media_play"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
                     android:layout_centerVertical="true"
@@ -63,46 +63,13 @@
                     android:layout_height="150dp"
                     android:orientation="vertical">
 
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <ImageButton
-                        android:id="@+id/upvote"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorDetail"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/stat_sys_upload" />
-
-                    <TextView
-                        android:id="@+id/rating"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textAlignment="gravity"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        android:text="@string/temp_score" />
-
-                    <ImageButton
-                        android:id="@+id/downvote"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/colorDetail"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/stat_sys_download" />
-
-                    <Space
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
 
                 </LinearLayout>
-                <ImageView
+                <com.example.myrosecarillon.midiEditor.MidiComposerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
+                    app:isDisplay="true"
                     tools:src="@tools:sample/backgrounds/scenic"/>
 
             </LinearLayout>

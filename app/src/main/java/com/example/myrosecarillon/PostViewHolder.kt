@@ -53,6 +53,7 @@ class PostViewHolder(itemView: View, val context: Context, val adapter: SongBoar
         cardView.card_title.text = post.song?.title
         val rating = post.votes?.count{it.value == 1}?.minus(post.votes?.count{it.value == -1}!!)
         cardView.rating.text = rating.toString()
+        cardView.save_song.setOnClickListener { cardView.post_composer.play() }
         when (post.votes?.get(auth.currentUser?.uid)){
             1 -> {
                 upvoteButton.setColorFilter(context.resources.getColor(android.R.color.holo_red_dark))
